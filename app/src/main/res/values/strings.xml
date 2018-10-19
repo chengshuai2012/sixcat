@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">Six Cat</string>
+    <string name="app_name">sixcat</string>
+    <string name="Intelligence_place">智能场馆</string>
+    <string name="wel_join">欢迎体验智能场馆自助服务</string>
+    <string name="add_face">添加人脸识别</string>
+    <string name="add_finger">添加指静脉</string>
+    <string name="bind_face_id">绑定人脸</string>
+
+
 </resources>
