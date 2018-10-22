@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/w169"
+    android:layout_height="@dimen/h50">
+
+    <TextView
+        android:id="@+id/contentText"
+        style="@style/RadioButton"
+        android:layout_width="@dimen/w169"
+        android:layout_height="@dimen/h50"
+        android:gravity="center"
+        android:text="录入人脸"
+        android:textSize="@dimen/w20" />
+
+
+</LinearLayout>

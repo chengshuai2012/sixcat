@@ -5,6 +5,23 @@
     <string name="add_face">添加人脸识别</string>
     <string name="add_finger">添加指静脉</string>
     <string name="bind_face_id">绑定人脸</string>
+    <string name="class_begin">上课</string>
+    <string name="class_eliminate">消课</string>
+    <string name="please_input_tel">请输入手机号</string>
+    <string name="digitKeyppad_clear">清空</string>
+    <string name="digitKeyppad_delect">退格</string>
+    <string name="digitKeyppad_zero">0</string>
+    <string name="digitKeyppad_nine">9</string>
+    <string name="digitKeyppad_eight">8</string>
+    <string name="digitKeyppad_seven">7</string>
+    <string name="digitKeyppad_six">6</string>
+    <string name="digitKeyppad_five">5</string>
+    <string name="digitKeyppad_four">4</string>
+    <string name="digitKeyppad_three">3</string>
+    <string name="digitKeyppad_two">2</string>
+    <string name="digitKeyppad_one">1</string>
+    <string name="back">返回</string>
+    <string name="next">下一步</string>
 
 
 </resources>

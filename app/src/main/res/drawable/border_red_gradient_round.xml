@@ -3,8 +3,12 @@
     android:shape="oval">
 
     <gradient
-        android:endColor="@color/dark_red"
-        android:startColor="@color/orange"></gradient>
-    
+        android:endColor="@color/color_C40024"
+        android:startColor="@color/color_FF2F4A"></gradient>
+
+
+    <stroke
+        android:width="@dimen/w5"
+        android:color="@color/white"></stroke>
 
 </shape>

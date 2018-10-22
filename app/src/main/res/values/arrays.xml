@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <string-array name="bind_Array">
+        <item>输入手机</item>
+        <item>确认个人信息</item>
+        <item>录入人脸</item>
+        <item>完成</item>
+    </string-array>
+
+   <string-array name="Eliminate_Array">
+        <item>教练确认</item>
+        <item>前台确认</item>
+        <item>选择课程</item>
+        <item>消课成功</item>
+    </string-array>
+
+
+</resources>

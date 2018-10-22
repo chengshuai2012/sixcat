@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@mipmap/ic_index_bg"
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
@@ -25,40 +26,77 @@
         style="@style/DividerLineHorizontal"
         android:layout_width="@dimen/w33"
         android:layout_height="@dimen/h6"
-        android:layout_marginTop="@dimen/h26" />
+        android:layout_marginTop="@dimen/h26"
+        android:background="@color/white" />
 
 
-    <ImageView
+    <FrameLayout
+        android:id="@+id/classBeginsLayout"
         android:layout_width="@dimen/w167"
         android:layout_height="@dimen/w167"
         android:layout_marginTop="@dimen/h103"
-        android:background="@drawable/ic_eliminate_class" />
+        android:background="@drawable/border_red_gradient_round"
+        android:gravity="center"
+        android:orientation="vertical">
 
-    <ImageView
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:drawableTop="@drawable/ic_class_begins"
+            android:gravity="left"
+            android:text="@string/class_begin"
+            android:textColor="@color/white"
+            android:textSize="@dimen/w25"
+            android:textStyle="bold" />
+
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/classeLiminateLayout"
         android:layout_width="@dimen/w167"
         android:layout_height="@dimen/w167"
-        android:layout_marginTop="@dimen/h71"
-        android:background="@drawable/ic_class_begins" />
+        android:layout_marginTop="@dimen/h103"
+        android:background="@drawable/border_red_gradient_round"
+        android:gravity="center"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:drawableTop="@drawable/ic_eliminate_class"
+            android:gravity="left"
+            android:text="@string/class_eliminate"
+            android:textColor="@color/white"
+            android:textSize="@dimen/w25"
+            android:textStyle="bold" />
+
+
+    </FrameLayout>
 
     <TextView
-        android:id="@+id/lastButton"
+        android:id="@+id/addFaceButton"
         android:layout_width="@dimen/w380"
         android:layout_height="@dimen/h62"
-        android:background="@drawable/border_lesson"
-        android:gravity="center"
         android:layout_marginTop="@dimen/h96"
-        android:textColor="@color/red"
+        android:background="@drawable/border_add_face"
+        android:gravity="center"
         android:text="@string/add_face"
+        android:textColor="@color/white"
         android:textSize="@dimen/w35" />
 
     <TextView
-        android:id="@+id/sureButton"
+        android:id="@+id/addFingerButton"
         android:layout_width="@dimen/w380"
         android:layout_height="@dimen/h62"
-        android:text="@string/add_finger"
         android:layout_marginTop="@dimen/h96"
         android:background="@drawable/border_red_gradient"
         android:gravity="center"
+        android:text="@string/add_finger"
         android:textColor="@color/almost_white"
         android:textSize="@dimen/w35" />
 

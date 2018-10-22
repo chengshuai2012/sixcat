@@ -17,6 +17,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activity.BindActivity" />
+        <activity android:name=".activity.EliminateClassActivity" />
     </application>
 
 </manifest>

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_horizontal"
+    android:background="@mipmap/ic_common_bg"
     android:orientation="vertical">
 
 
@@ -12,5 +13,58 @@
         android:layout_height="wrap_content"
         app:title_text="@string/bind_face_id" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/h64"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/w58"
+            android:textColor="@color/white"
+            android:textSize="@dimen/w27"
+            tools:text="深圳" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/w16"
+            android:textColor="@color/white"
+            android:textSize="@dimen/w66"
+            tools:text="33赌" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="@dimen/w184"
+        android:layout_height="@dimen/h62"
+        android:layout_marginLeft="@dimen/w37"
+        android:background="@drawable/border_red_white_gradient">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:drawableLeft="@drawable/ic_face"
+            android:gravity="center"
+            android:text="@string/bind_face_id"
+            android:textColor="@color/white"
+            android:textSize="@dimen/w27" />
+
+    </FrameLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/h79" />
+
+    <FrameLayout
+        android:id="@+id/content_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></FrameLayout>
 
 </LinearLayout>
