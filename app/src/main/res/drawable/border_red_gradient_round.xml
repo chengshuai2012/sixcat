@@ -7,8 +7,5 @@
         android:startColor="@color/color_FF2F4A"></gradient>
 
 
-    <stroke
-        android:width="@dimen/w5"
-        android:color="@color/white"></stroke>
 
 </shape>

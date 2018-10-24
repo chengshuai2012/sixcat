@@ -7,6 +7,7 @@
     <string name="bind_face_id">绑定人脸</string>
     <string name="class_begin">上课</string>
     <string name="class_eliminate">消课</string>
+    <string name="sign_in">签到</string>
     <string name="please_input_tel">请输入手机号</string>
     <string name="digitKeyppad_clear">清空</string>
     <string name="digitKeyppad_delect">退格</string>
@@ -22,6 +23,9 @@
     <string name="digitKeyppad_one">1</string>
     <string name="back">返回</string>
     <string name="next">下一步</string>
+    <string name="_60s">下一步60s</string>
+    <string name="recent">重发</string>
+    <string name="bind_success">绑定成功请开启你的健身之旅</string>
 
 
 </resources>

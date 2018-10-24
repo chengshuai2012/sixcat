@@ -8,11 +8,15 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.hwangjr.rxbus.RxBus;
+import com.link.cloud.R;
+import com.link.cloud.utils.Utils;
 import com.link.cloud.widget.SimpleStyleDialog;
 import com.tbruyelle.rxpermissions.RxPermissions;
 import com.zitech.framework.utils.ViewUtils;
@@ -32,17 +36,22 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
         this.setContentView(this.getLayoutId());
+        RxBus.get().register(this);
         initViews();
     }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        RxBus.get().unregister(this);
+    }
+
 
     protected abstract void initViews();
 
     protected abstract int getLayoutId();
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
     @Override
     protected void onStop() {
         super.onStop();
@@ -174,10 +183,24 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
             denyDialog.show();
         }
     }
-//
-//    public Fragment showFragment(Class<? extends Fragment> fragmentClass) {
-//        return Utils.replace(getSupportFragmentManager(), R.id.content_frame, fragmentClass);
-//    }
+
+    public Fragment showFragment(Class<? extends Fragment> fragmentClass) {
+        return Utils.replace(getSupportFragmentManager(), R.id.content_frame, fragmentClass);
+    }
+
+    public Fragment showNewFragment(Class<? extends Fragment> fragmentClass) {
+        return Utils.replaceNew(getSupportFragmentManager(), R.id.content_frame, fragmentClass);
+    }
+
+    public Fragment showFragment(Class<? extends Fragment> fragmentClass,Bundle bundle) {
+        return Utils.replace(getSupportFragmentManager(),fragmentClass, R.id.content_frame, bundle);
+    }
+
+    public Fragment showNewFragment(Class<? extends Fragment> fragmentClass,Bundle bundle) {
+        return Utils.replaceNew(getSupportFragmentManager(),fragmentClass, R.id.content_frame, bundle);
+    }
+
+
 
     public Context getContext() {
         return this;

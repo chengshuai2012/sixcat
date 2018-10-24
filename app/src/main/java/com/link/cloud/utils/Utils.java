@@ -11,6 +11,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.icu.util.TimeZone;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -23,9 +24,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jakewharton.rxbinding.view.RxView;
 import com.link.cloud.SixCatApplication;
+import com.link.cloud.activity.MainActivity;
 import com.mozillaonline.providers.DownloadManager;
 import com.mozillaonline.providers.downloads.DownloadInfo;
 import com.mozillaonline.providers.downloads.Downloads;
@@ -63,7 +66,10 @@ public class Utils extends com.zitech.framework.utils.Utils {
     private static final int DEFAULT_AVATAR_NOTIFICATION_ICON_SIZE = ViewUtils.dip2px(48);
 
 
-
+    public static void setCanNotEditAndClick(View view) {
+        view.setFocusable(false);
+        view.setFocusableInTouchMode(false);
+    }
     public static String getVersionName(Context context) {
         PackageManager packageManager = context.getPackageManager();
         PackageInfo packageInfo;
@@ -765,9 +771,36 @@ public class Utils extends com.zitech.framework.utils.Utils {
      * @param replaceLayoutId
      * @param args
      */
-    public static Fragment replace(FragmentManager fm, Class<? extends Fragment> fragmentClass, int replaceLayoutId, Bundle args) {
-       return replace(fm, fragmentClass, replaceLayoutId, fragmentClass.getSimpleName(), args);
+    public static Fragment replaceNew(FragmentManager fm, Class<? extends Fragment> fragmentClass, int replaceLayoutId, Bundle args) {
+       return replace(fm, fragmentClass, replaceLayoutId, String.valueOf(System.currentTimeMillis()), args);
     }
+
+
+    /**
+     * Fragment跳转， 将一个layout替换为新的fragment。
+     *
+     * @param fm
+     * @param fragmentClass
+     * @param replaceLayoutId
+     * @param args
+     */
+    public static Fragment replace(FragmentManager fm, Class<? extends Fragment> fragmentClass, int replaceLayoutId, Bundle args) {
+        return replace(fm, fragmentClass, replaceLayoutId, fragmentClass.getSimpleName(), args);
+    }
+
+
+    /**
+     * Fragment跳转， 将一个layout替换为新的fragment。
+     *
+     * @param fm
+     * @param replaceLayoutId
+     * @param fragmentClass
+     * @return
+     */
+    public static Fragment replaceNew(FragmentManager fm, int replaceLayoutId, Class<? extends Fragment> fragmentClass) {
+        return replace(fm, fragmentClass, replaceLayoutId, String.valueOf(System.currentTimeMillis()), null);
+    }
+
 
     /**
      * Fragment跳转， 将一个layout替换为新的fragment。

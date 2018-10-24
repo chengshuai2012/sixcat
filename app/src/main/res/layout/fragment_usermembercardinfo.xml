@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/h500"
+        android:layout_marginLeft="@dimen/w30"
+        android:layout_marginRight="@dimen/w30"
+        android:layout_marginTop="@dimen/h61"
+        android:background="@drawable/bg_black_rectangle_corner_r20"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycle"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/h407" />
+
+        <Button
+            android:id="@+id/cardNumber"
+            android:layout_width="@dimen/w380"
+            android:layout_height="@dimen/h62"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:textSize="@dimen/w29"
+            android:layout_marginTop="@dimen/h6"
+            android:background="@drawable/border_red_gradient_carinfo_bg"></Button>
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/selecteLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/h38"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/backButton"
+            android:layout_width="@dimen/w171"
+            android:layout_height="@dimen/h62"
+            android:layout_marginRight="@dimen/w20"
+            android:background="@drawable/border_add_face"
+            android:gravity="center"
+            android:text="@string/back"
+            android:textColor="@color/white"
+            android:textSize="@dimen/w35" />
+
+
+        <com.link.cloud.widget.CountDownButton
+            android:id="@+id/nextButton"
+            android:layout_width="@dimen/w171"
+            android:layout_height="@dimen/h62"
+            android:layout_marginLeft="@dimen/w20"
+            android:background="@drawable/common_button_bg"
+            android:gravity="center"
+            android:text="@string/_60s"
+            android:textColor="@color/white"
+            android:textSize="@dimen/w29"
+            app:afterText="@string/recent"
+            app:ms="60000" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/successLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/h101"
+        android:layout_marginLeft="@dimen/w50"
+        android:layout_marginRight="@dimen/w50"
+        android:layout_marginTop="@dimen/h38"
+        android:background="@drawable/border_red_gradient_sucess_bg"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="@dimen/w59"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_success" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/w50"
+            android:text="@string/bind_success"
+            android:textColor="@color/white"
+            android:textSize="@dimen/w29" />
+
+
+    </LinearLayout>
+
+</LinearLayout>

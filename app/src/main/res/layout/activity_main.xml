@@ -17,25 +17,18 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/h110"
+        android:layout_marginTop="@dimen/h101"
         android:text="@string/wel_join"
         android:textColor="@color/white"
         android:textSize="@dimen/w41" />
-
-    <View
-        style="@style/DividerLineHorizontal"
-        android:layout_width="@dimen/w33"
-        android:layout_height="@dimen/h6"
-        android:layout_marginTop="@dimen/h26"
-        android:background="@color/white" />
 
 
     <FrameLayout
         android:id="@+id/classBeginsLayout"
         android:layout_width="@dimen/w167"
         android:layout_height="@dimen/w167"
-        android:layout_marginTop="@dimen/h103"
-        android:background="@drawable/border_red_gradient_round"
+        android:layout_marginTop="@dimen/h50"
+        android:background="@drawable/border_choose_two_gradient_bg"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -44,11 +37,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:drawablePadding="@dimen/h8"
             android:drawableTop="@drawable/ic_class_begins"
-            android:gravity="left"
+            android:gravity="center"
             android:text="@string/class_begin"
             android:textColor="@color/white"
-            android:textSize="@dimen/w25"
+            android:textSize="@dimen/w23"
             android:textStyle="bold" />
 
 
@@ -58,7 +52,7 @@
         android:id="@+id/classeLiminateLayout"
         android:layout_width="@dimen/w167"
         android:layout_height="@dimen/w167"
-        android:layout_marginTop="@dimen/h103"
+        android:layout_marginTop="@dimen/h26"
         android:background="@drawable/border_red_gradient_round"
         android:gravity="center"
         android:orientation="vertical">
@@ -69,10 +63,38 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:drawableTop="@drawable/ic_eliminate_class"
-            android:gravity="left"
+            android:gravity="center"
+            android:drawablePadding="@dimen/h8"
+
             android:text="@string/class_eliminate"
             android:textColor="@color/white"
-            android:textSize="@dimen/w25"
+            android:textSize="@dimen/w23"
+            android:textStyle="bold" />
+
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/signInLayout"
+        android:layout_width="@dimen/w167"
+        android:layout_height="@dimen/w167"
+        android:layout_marginTop="@dimen/h26"
+        android:background="@drawable/border_choose_three_gradient_bg"
+        android:gravity="center"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:drawableTop="@drawable/ic_sign_in"
+            android:gravity="center"
+            android:drawablePadding="@dimen/h8"
+
+            android:text="@string/sign_in"
+            android:textColor="@color/white"
+            android:textSize="@dimen/w23"
             android:textStyle="bold" />
 
 
@@ -82,7 +104,7 @@
         android:id="@+id/addFaceButton"
         android:layout_width="@dimen/w380"
         android:layout_height="@dimen/h62"
-        android:layout_marginTop="@dimen/h96"
+        android:layout_marginTop="@dimen/h60"
         android:background="@drawable/border_add_face"
         android:gravity="center"
         android:text="@string/add_face"
@@ -93,7 +115,7 @@
         android:id="@+id/addFingerButton"
         android:layout_width="@dimen/w380"
         android:layout_height="@dimen/h62"
-        android:layout_marginTop="@dimen/h96"
+        android:layout_marginTop="@dimen/h30"
         android:background="@drawable/border_red_gradient"
         android:gravity="center"
         android:text="@string/add_finger"
