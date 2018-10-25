@@ -2,10 +2,17 @@
 <resources>
 
 
-    <string-array name="bind_Array">
+    <string-array name="bind_face_Array">
         <item>输入手机</item>
         <item>确认个人信息</item>
         <item>录入人脸</item>
+        <item>完成</item>
+    </string-array>
+
+    <string-array name="bind_finger_Array">
+        <item>输入手机</item>
+        <item>确认个人信息</item>
+        <item>放置手指</item>
         <item>完成</item>
     </string-array>
 

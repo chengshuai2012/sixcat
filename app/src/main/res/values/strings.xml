@@ -26,6 +26,20 @@
     <string name="_60s">下一步60s</string>
     <string name="recent">重发</string>
     <string name="bind_success">绑定成功请开启你的健身之旅</string>
+    <string name="introduce_faces">请将人脸置于相机预览框内</string>
+    <string name="open_camera_error">App部分功能需要使用到相机，请开启相机权限。</string>
+    <string name="none_face">人脸特征无法检测，请换一张图片</string>
+    <string name="face_success">人脸识别成功</string>
+    <string name="again_finger">请移开手指,再次放置...</string>
+    <string name="same_finger">验证错误，请放置同一根手指</string>
+    <string name="move_finger">请移开手指,再次放置</string>
+    <string name="finger_success">手指验证成功</string>
 
+    <string name="mode_one">方式1.指静脉签到</string>
+    <string name="mode_one_hint">请将手指正确放置模块上方完成验证，切勿用力按压听到“验证成功”签到成功</string>
+    <string name="mode_two">方式2.人脸签到</string>
+    <string name="mode_two_hint">请将脸部对准上方摄像头，听到“验证成功”签到成功</string>
+    <string name="mode_three">方式3.二维码签到</string>
+    <string name="mode_three_hint">请将小程序二维码放置扫描枪进行扫描，听到“验证成功”签到成功</string>
 
 </resources>

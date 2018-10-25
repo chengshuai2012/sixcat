@@ -15,6 +15,15 @@
     </declare-styleable>
 
 
+    <!--拍摄圆形view-->
+    <declare-styleable name="CircleCameraLayout">
+        <attr name="circle_camera_width" format="dimension" />
+        <attr name="circle_camera_height" format="dimension" />
+        <attr name="border_width" format="dimension" />
+    </declare-styleable>
+
+
+
     <declare-styleable name="CircularProgressBar">
         <attr name="cpbStyle" format="reference" />
         <attr name="cpb_color" format="color" />

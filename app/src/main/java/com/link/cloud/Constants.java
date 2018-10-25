@@ -9,7 +9,7 @@ public class Constants {
     public static final int TCP_PORT = 12125;
 
     public interface ActivityExtra {
-
+        String TYPE="TYPE";
 
     }
 

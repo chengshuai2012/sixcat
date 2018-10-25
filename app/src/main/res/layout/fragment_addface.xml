@@ -1,6 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
 
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/h500"
+        android:layout_marginLeft="@dimen/w30"
+        android:layout_marginRight="@dimen/w30"
+        android:layout_marginTop="@dimen/h61"
+        android:background="@drawable/bg_black_rectangle_corner_r20"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+
+        <com.link.cloud.widget.camera.CircleCameraLayout
+            android:id="@+id/rootLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/h23"
+            android:clipChildren="true"
+            app:border_width="4dp"
+            app:circle_camera_width="@dimen/h300" />
+
+
+        <Button
+            android:id="@+id/cardNumber"
+            android:layout_width="@dimen/w380"
+            android:layout_height="@dimen/h62"
+            android:layout_marginTop="@dimen/h45"
+            android:background="@drawable/border_add_face"
+            android:gravity="center"
+            android:text="@string/introduce_faces"
+            android:textColor="@color/white"
+            android:textSize="@dimen/w28"></Button>
+
+
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginBottom="@dimen/w30"
+        android:layout_marginTop="@dimen/h38"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/backButton"
+            android:layout_width="@dimen/w171"
+            android:layout_height="@dimen/h62"
+            android:layout_marginRight="@dimen/w20"
+            android:background="@drawable/border_add_face"
+            android:gravity="center"
+            android:text="@string/back"
+            android:textColor="@color/white"
+            android:textSize="@dimen/w35" />
+
+        <TextView
+            android:id="@+id/nextButton"
+            android:layout_marginLeft="@dimen/w20"
+            android:layout_width="@dimen/w171"
+            android:layout_height="@dimen/h62"
+            android:background="@drawable/common_button_bg"
+            android:gravity="center"
+            android:text="@string/next"
+            android:textColor="@color/white"
+            android:textSize="@dimen/w29" />
+    </LinearLayout>
 </LinearLayout>

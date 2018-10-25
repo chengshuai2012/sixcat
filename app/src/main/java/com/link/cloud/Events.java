@@ -26,7 +26,7 @@ public class Events {
     public static class NextView{}
     public static class CardInfoNextView{}
     public static class BackView{}
-    public static class BindView{}
+    public static class SuccessView{}
 
 
 

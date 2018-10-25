@@ -14,6 +14,7 @@ import com.link.cloud.R;
 import com.link.cloud.adapter.PublicTitleAdapter;
 import com.link.cloud.base.BaseActivity;
 import com.link.cloud.fragment.AddFaceFragment;
+import com.link.cloud.fragment.AddFingerFragment;
 import com.link.cloud.fragment.InputPhoneFragment;
 import com.link.cloud.fragment.UserMemberCardInfoFragment;
 import com.link.cloud.utils.Utils;
@@ -28,19 +29,21 @@ public class BindActivity extends BaseActivity {
 
     private RecyclerView recycle;
     private FrameLayout contentFrame;
+    private String type;
 
 
     private PublicTitleAdapter publicTitleAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        type = getIntent().getExtras().getString(Constants.ActivityExtra.TYPE);
         super.onCreate(savedInstanceState);
-
+        initView();
     }
 
     @Override
     protected void initViews() {
-        initView();
+
     }
 
     @Override
@@ -55,11 +58,17 @@ public class BindActivity extends BaseActivity {
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recycle.setLayoutManager(layoutManager);
         publicTitleAdapter = new PublicTitleAdapter(this);
-        String[] bindArray = getResources().getStringArray(R.array.bind_Array);
+        String[] faceArray = getResources().getStringArray(R.array.bind_face_Array);
+        String[] fingerArray = getResources().getStringArray(R.array.bind_finger_Array);
         List<String> date = new ArrayList<>();
-
-        for (String dateInfo : bindArray) {
-            date.add(dateInfo);
+        if (type.equals("FACE")) {
+            for (String dateInfo : faceArray) {
+                date.add(dateInfo);
+            }
+        } else {
+            for (String dateInfo : fingerArray) {
+                date.add(dateInfo);
+            }
         }
         publicTitleAdapter.setDate(date);
         recycle.setAdapter(publicTitleAdapter);
@@ -78,9 +87,22 @@ public class BindActivity extends BaseActivity {
     @Subscribe(thread = EventThread.MAIN_THREAD)
     public void CardInfoNextView(Events.CardInfoNextView event) {
         publicTitleAdapter.next();
-        showNewFragment(AddFaceFragment.class);
+        if (type.equals("FACE")) {
+            showNewFragment(AddFaceFragment.class);
+        } else {
+          showNewFragment(AddFingerFragment.class);
+        }
+
     }
 
+
+    @Subscribe(thread = EventThread.MAIN_THREAD)
+    public void onDataChanged(Events.SuccessView event) {
+        publicTitleAdapter.next();
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.FragmentExtra.TYPE, "FINISH");
+        showNewFragment(UserMemberCardInfoFragment.class, bundle);
+    }
 
 
     @Subscribe(thread = EventThread.MAIN_THREAD)
