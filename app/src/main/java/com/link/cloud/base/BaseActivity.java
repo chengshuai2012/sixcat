@@ -16,6 +16,7 @@ import android.view.WindowManager;
 
 import com.hwangjr.rxbus.RxBus;
 import com.link.cloud.R;
+import com.link.cloud.SixCatApplication;
 import com.link.cloud.utils.Utils;
 import com.link.cloud.widget.SimpleStyleDialog;
 import com.tbruyelle.rxpermissions.RxPermissions;
@@ -45,6 +46,11 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     protected void onDestroy() {
         super.onDestroy();
         RxBus.get().unregister(this);
+        try {
+            SixCatApplication.getVenueUtils().unBindService();
+        }catch (Exception e){
+
+        }
     }
 
 

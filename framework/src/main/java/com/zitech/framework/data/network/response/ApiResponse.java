@@ -1,6 +1,8 @@
 package com.zitech.framework.data.network.response;
 
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * @author makk
  * @version V1.0
@@ -10,30 +12,30 @@ package com.zitech.framework.data.network.response;
  * @date 2016/5/17 9:47
  */
 public class ApiResponse<T> {
-    T data;
 
     /**
      * code : 0
      * msg : ok
      */
-    private int code;
-    private String message;
+    public int status;
+    public String msg;
+    T data;
 
-    public int getCode() {
-        return code;
+
+    public int getStatus() {
+        return status;
     }
 
-    public void setCode(int code) {
-        this.code = code;
+    public void setStatus(int status) {
+        this.status = status;
     }
 
-
-    public String getMessage() {
-        return message;
+    public String getMsg() {
+        return msg;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 
     public T getData() {
@@ -43,5 +45,4 @@ public class ApiResponse<T> {
     public void setData(T data) {
         this.data = data;
     }
-
 }
