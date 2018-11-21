@@ -41,5 +41,15 @@
     <string name="mode_two_hint">请将脸部对准上方摄像头，听到“验证成功”签到成功</string>
     <string name="mode_three">方式3.二维码签到</string>
     <string name="mode_three_hint">请将小程序二维码放置扫描枪进行扫描，听到“验证成功”签到成功</string>
+    <string name="net_error">网络异常请检查网络!</string>
+    <string name="download">通知栏下载中</string>
+
+
+    <string name="coach_finger">请教练放置手指</string>
+
+    <string name="cheack_fail">验证失败</string>
+    <string name="coach_first">请教练先放手指</string>
+    <string name="student_finger">请学员放置手指</string>
+
 
 </resources>

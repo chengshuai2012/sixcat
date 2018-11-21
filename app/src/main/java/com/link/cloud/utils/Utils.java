@@ -20,6 +20,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -29,12 +30,15 @@ import android.widget.Toast;
 import com.jakewharton.rxbinding.view.RxView;
 import com.link.cloud.SixCatApplication;
 import com.link.cloud.activity.MainActivity;
+import com.link.cloud.network.ApiConstants;
 import com.mozillaonline.providers.DownloadManager;
 import com.mozillaonline.providers.downloads.DownloadInfo;
 import com.mozillaonline.providers.downloads.Downloads;
+import com.orhanobut.logger.Logger;
 import com.zitech.framework.Session;
 import com.zitech.framework.utils.ViewUtils;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -42,9 +46,12 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -64,6 +71,111 @@ import rx.functions.Action1;
  */
 public class Utils extends com.zitech.framework.utils.Utils {
     private static final int DEFAULT_AVATAR_NOTIFICATION_ICON_SIZE = ViewUtils.dip2px(48);
+
+    public static int getVersionCode(Context context)// 获取版本号
+    {
+        try {
+            PackageInfo pi = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+            return pi.versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+
+    public static String getMac() {
+        String result = "";
+        String Mac = "";
+        result = callCmd("busybox ifconfig", "HWaddr");
+        //如果返回的result == null，则说明网络不可取
+        if (result == null) {
+            return "网络出错，请检查网络";
+        }
+        //对该行数据进行解析
+        //例如：eth0      Link encap:Ethernet  HWaddr 00:16:E8:3E:DF:67
+        if (result.length() > 0 && result.contains("HWaddr") == true) {
+            Mac = result.substring(result.indexOf("HWaddr") + 6, result.length() - 1);
+            Log.i("test", "Mac:" + Mac + " Mac.length: " + Mac.length());
+            result = Mac;
+            Log.i("test", result + " result.length: " + result.length());
+        }
+        return result;
+    }
+
+    private static String callCmd(String cmd, String filter) {
+        String result = "";
+        String line = "";
+        try {
+            Process proc = Runtime.getRuntime().exec(cmd);
+            InputStreamReader is = new InputStreamReader(proc.getInputStream());
+            BufferedReader br = new BufferedReader(is);
+            //执行命令cmd，只取结果中含有filter的这一行
+            while ((line = br.readLine()) != null && line.contains(filter) == false) {
+                //result += line;
+                Log.i("test", "line: " + line);
+            }
+            result = line;
+            Log.i("test", "result: " + result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+
+
+    /**
+     * 签名算法
+     * 1）公共头请求参数按照字符串大小顺序顺序排序:key = value + .... key = value.。例如：将foo=1,bar=2,baz=3 排序为bar=2,baz=3,foo=1
+     * 2）参数名和参数值链接后，得到拼装字符串bar=2baz=3foo=1
+     * 3）将AppSecret拼接到参数字符串尾进行md5加密后，再转化成字符串，格式是：byte2hex(md5(key1=value12key2=vlues2... AppSecret))
+     */
+    public static String generateSign(String version, String appKey, String dateTime) {
+        String sign = null;
+        StringBuilder sb = new StringBuilder("");
+        String[] args = {"code=" + version, "datetime=" + dateTime, "key=" + appKey};
+        for (String str : args) {
+            sb.append(str);
+        }
+        sb.append(ApiConstants.APP_KEY);
+        Logger.e(sb.toString()+"android=============");
+        try {
+            sign = toMD5HexStr(sb.toString());
+        } catch (NoSuchAlgorithmException e) {
+            Logger.e(e.getMessage());
+            sign = "";
+        } catch (UnsupportedEncodingException e) {
+            Logger.e(e.getMessage());
+            sign = "";
+        } catch (Exception e) {
+            Logger.e(e.getMessage());
+            sign = "";
+        }
+        return sign;
+    }
+
+
+    public static String toMD5HexStr(String from) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+        MessageDigest md5 = MessageDigest.getInstance("MD5");
+        byte[] srcBytes = from.getBytes();
+        md5.update(srcBytes);
+        byte[] resultBytes = md5.digest();
+
+        StringBuffer md5StrBuff = new StringBuffer();
+        //将加密后的byte数组转换为十六进制的字符串,否则的话生成的字符串会乱码
+        for (int i = 0; i < resultBytes.length; i++) {
+            if (Integer.toHexString(0xFF & resultBytes[i]).length() == 1) {
+                md5StrBuff.append("0").append(Integer.toHexString(0xFF & resultBytes[i]));
+            } else {
+                md5StrBuff.append(Integer.toHexString(0xFF & resultBytes[i]));
+            }
+        }
+        return md5StrBuff.toString();
+    }
+
+
 
 
     public static void setCanNotEditAndClick(View view) {

@@ -17,27 +17,33 @@ import android.view.WindowManager;
 import com.hwangjr.rxbus.RxBus;
 import com.link.cloud.R;
 import com.link.cloud.SixCatApplication;
+import com.link.cloud.utils.TTSUtils;
 import com.link.cloud.utils.Utils;
+import com.link.cloud.utils.Venueutils;
 import com.link.cloud.widget.SimpleStyleDialog;
 import com.tbruyelle.rxpermissions.RxPermissions;
 import com.zitech.framework.utils.ViewUtils;
 
+import io.realm.Realm;
 import rx.functions.Action1;
 
 /**
  * Created by OFX002 on 2018/9/20.
  */
 
-public abstract class BaseActivity extends AppCompatActivity implements View.OnClickListener{
+public abstract class BaseActivity extends AppCompatActivity implements View.OnClickListener, Venueutils.VenueCallBack{
 
     private SimpleStyleDialog denyDialog;
+    public Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
         this.setContentView(this.getLayoutId());
+        SixCatApplication.getVenueUtils().initVenue(this, this, false);
         RxBus.get().register(this);
+        realm = Realm.getDefaultInstance();
         initViews();
     }
 
@@ -45,6 +51,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        realm.close();
         RxBus.get().unregister(this);
         try {
             SixCatApplication.getVenueUtils().unBindService();
@@ -72,6 +79,17 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         super.onPause();
 
     }
+
+
+
+    public void speak(String message) {
+        TTSUtils.getInstance().speak(message);
+    }
+
+    public void speakMust(String message){
+        TTSUtils.getInstance().speakMust(message);
+    }
+
 
     /**
      * @param cls 目标activity

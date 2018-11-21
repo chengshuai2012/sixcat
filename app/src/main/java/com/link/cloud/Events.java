@@ -23,13 +23,26 @@ public class Events {
         }
     }
 
-    public static class NextView{}
-    public static class CardInfoNextView{}
-    public static class BackView{}
-    public static class SuccessView{}
+    public static class NextView {
+    }
+
+    public static class CardInfoNextView {
+    }
+
+    public static class BackView {
+    }
+
+      public static class BackAndClearnView {
+    }
 
 
 
+
+    public static class SuccessView {
+    }
+
+    public static class finish {
+    }
 
 
 }

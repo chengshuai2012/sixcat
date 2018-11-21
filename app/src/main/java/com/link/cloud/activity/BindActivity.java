@@ -110,4 +110,8 @@ public class BindActivity extends BaseActivity {
         publicTitleAdapter.last();
     }
 
+    @Override
+    public void modelMsg(int state, String msg) {
+
+    }
 }

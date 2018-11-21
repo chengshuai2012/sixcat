@@ -30,6 +30,11 @@ public class PublicTitleAdapter extends RecyclerView.Adapter<PublicTitleAdapter.
         notifyDataSetChanged();
     }
 
+    public void selectPosition(int selection) {
+        this.mLocation = selection;
+        notifyDataSetChanged();
+    }
+
     public void next() {
         mLocation++;
         notifyDataSetChanged();
@@ -62,7 +67,7 @@ public class PublicTitleAdapter extends RecyclerView.Adapter<PublicTitleAdapter.
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(holder.contentText.getLayoutParams());
         if (position == 0) {
             lp.setMargins(0, 0, 0, 0);
-        }else {
+        } else {
             lp.setMargins(ViewUtils.getDimenPx(R.dimen.w30), 0, 0, 0);
         }
         holder.contentText.setLayoutParams(lp);
@@ -74,7 +79,7 @@ public class PublicTitleAdapter extends RecyclerView.Adapter<PublicTitleAdapter.
     }
 
     public void first() {
-        mLocation=0;
+        mLocation = 0;
         notifyDataSetChanged();
     }
 

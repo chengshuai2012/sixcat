@@ -61,4 +61,9 @@ public class AttendClassActivity extends BaseActivity {
     public void onClick(View v) {
         super.onClick(v);
     }
+
+    @Override
+    public void modelMsg(int state, String msg) {
+
+    }
 }

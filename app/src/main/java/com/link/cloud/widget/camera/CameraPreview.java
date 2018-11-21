@@ -26,7 +26,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     private Activity mContext;
     private CameraListener listener;
     private int cameraId = Camera.CameraInfo.CAMERA_FACING_BACK;
-    private int displayDegree = 90;
+    private int displayDegree = 0;
 
     public CameraPreview(Activity context) {
         super(context);

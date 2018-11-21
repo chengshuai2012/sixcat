@@ -16,9 +16,9 @@
         <item>完成</item>
     </string-array>
 
-   <string-array name="Eliminate_Array">
+    <string-array name="Eliminate_Array">
         <item>教练确认</item>
-        <item>前台确认</item>
+        <item>学员确认</item>
         <item>选择课程</item>
         <item>消课成功</item>
     </string-array>

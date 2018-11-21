@@ -34,4 +34,9 @@ public class ChoiceWayActivity  extends BaseActivity{
     protected int getLayoutId() {
         return R.layout.activity_choiceway;
     }
+
+    @Override
+    public void modelMsg(int state, String msg) {
+
+    }
 }

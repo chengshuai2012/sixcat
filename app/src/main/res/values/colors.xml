@@ -41,7 +41,7 @@
     <color name="color_FF922D">#FF922D</color>
     <color name="color_E4001B">#E4001B</color>
     <color name="common_bg">#ffefefef</color>
-
+    <color name="sr_window_background" >#FFFEFEFE</color>
 
 
 </resources>

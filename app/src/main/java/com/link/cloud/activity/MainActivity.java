@@ -1,6 +1,7 @@
 package com.link.cloud.activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -11,6 +12,7 @@ import com.link.cloud.R;
 import com.link.cloud.base.BaseActivity;
 import com.zitech.framework.utils.ViewUtils;
 
+@SuppressLint("Registered")
 public class MainActivity extends BaseActivity {
 
 
@@ -48,6 +50,8 @@ public class MainActivity extends BaseActivity {
         ViewUtils.setOnClickListener(addFingerButton, this);
         ViewUtils.setOnClickListener(classBeginsLayout, this);
         classeLiminateLayout.setOnClickListener(this);
+
+        ViewUtils.setOnClickListener(classeLiminateLayout,this);
         requestRxPermissions(getString(R.string.open_camera_error), Manifest.permission.CAMERA);
 
     }
@@ -77,5 +81,10 @@ public class MainActivity extends BaseActivity {
                 showActivity(AttendClassActivity.class);
                 break;
         }
+    }
+
+    @Override
+    public void modelMsg(int state, String msg) {
+
     }
 }
