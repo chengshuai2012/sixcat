@@ -62,9 +62,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:drawablePadding="@dimen/h8"
             android:drawableTop="@drawable/ic_eliminate_class"
             android:gravity="center"
-            android:drawablePadding="@dimen/h8"
 
             android:text="@string/class_eliminate"
             android:textColor="@color/white"
@@ -88,9 +88,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:drawablePadding="@dimen/h8"
             android:drawableTop="@drawable/ic_sign_in"
             android:gravity="center"
-            android:drawablePadding="@dimen/h8"
 
             android:text="@string/sign_in"
             android:textColor="@color/white"
@@ -109,7 +109,8 @@
         android:gravity="center"
         android:text="@string/add_face"
         android:textColor="@color/white"
-        android:textSize="@dimen/w35" />
+        android:textSize="@dimen/w35"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/addFingerButton"

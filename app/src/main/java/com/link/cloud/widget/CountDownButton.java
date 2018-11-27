@@ -20,7 +20,7 @@ import com.link.cloud.R;
 public class CountDownButton extends Button {
 
 
-    private String afterText = "重发";
+    private String afterText = "下一步";
     private int ms = 10000;
     private Context context;
 

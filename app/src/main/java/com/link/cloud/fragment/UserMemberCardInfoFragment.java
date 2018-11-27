@@ -1,9 +1,6 @@
 package com.link.cloud.fragment;
 
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -11,16 +8,15 @@ import com.hwangjr.rxbus.RxBus;
 import com.link.cloud.Constants;
 import com.link.cloud.Events;
 import com.link.cloud.R;
-import com.link.cloud.adapter.LessonConsumeAdapter;
+import com.link.cloud.activity.BindActivity;
 import com.link.cloud.base.BaseFragment;
+import com.link.cloud.network.bean.MemberCardBean;
+import com.link.cloud.network.response.MemberdataResponse;
 import com.link.cloud.utils.Utils;
-import com.link.cloud.widget.CardConfig;
 import com.link.cloud.widget.CountDownButton;
-import com.link.cloud.widget.SwipeCardCallBack;
-import com.link.cloud.widget.SwipeCardLayoutManager;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.List;
 
 /**
  * 作者：qianlu on 2018/10/24 14:19
@@ -28,19 +24,25 @@ import java.util.Collections;
  */
 public class UserMemberCardInfoFragment extends BaseFragment {
 
-    private ArrayList<String> mList = new ArrayList();
-    private android.support.v7.widget.RecyclerView recycle;
+    private List<MemberCardBean> mList = new ArrayList();
     private String type;
-    private android.widget.Button cardNumber;
+
     private android.widget.LinearLayout selecteLayout;
     private android.widget.TextView backButton;
     private com.link.cloud.widget.CountDownButton nextButton;
     private android.widget.LinearLayout successLayout;
+    private TextView name;
+    private TextView phoneText;
+    private TextView userType;
+
+    private MemberdataResponse memberdataResponse;
+
 
     @Override
     public void onInflateView(View contentView) {
         super.onInflateView(contentView);
         type = getArguments().getString(Constants.FragmentExtra.TYPE);
+        ((BindActivity)getActivity()).speak(getResources().getString(R.string.please_sure));
         initView(contentView);
         setData();
     }
@@ -48,27 +50,6 @@ public class UserMemberCardInfoFragment extends BaseFragment {
 
     private void setData() {
 
-        mList.add("1");
-        mList.add("2");
-        mList.add("3");
-        mList.add("4");
-        mList.add("5");
-
-        SwipeCardLayoutManager swmanamger = new SwipeCardLayoutManager(getActivity());
-        recycle.setLayoutManager(swmanamger);
-        Collections.reverse(mList);
-        LessonConsumeAdapter mAdatper = new LessonConsumeAdapter(mList, getActivity());
-        recycle.setAdapter(mAdatper);
-        mAdatper.setOnDateChangeListner(new LessonConsumeAdapter.onDateChangeListner() {
-            @Override
-            public void change(int position) {
-                cardNumber.setText(mList.get(position));
-            }
-        });
-        CardConfig.initConfig(getActivity());
-        ItemTouchHelper.Callback callback = new SwipeCardCallBack(mList, mAdatper, recycle);
-        ItemTouchHelper helper = new ItemTouchHelper(callback);
-        helper.attachToRecyclerView(recycle);
 
     }
 
@@ -78,25 +59,37 @@ public class UserMemberCardInfoFragment extends BaseFragment {
     }
 
     private void initView(View contentView) {
-        recycle = (RecyclerView) contentView.findViewById(R.id.recycle);
-        cardNumber = (Button) contentView.findViewById(R.id.cardNumber);
+
         selecteLayout = (LinearLayout) contentView.findViewById(R.id.selecteLayout);
         backButton = (TextView) contentView.findViewById(R.id.backButton);
         nextButton = (CountDownButton) contentView.findViewById(R.id.nextButton);
         successLayout = (LinearLayout) contentView.findViewById(R.id.successLayout);
+        name = (TextView) contentView.findViewById(R.id.name);
+        phoneText = (TextView) contentView.findViewById(R.id.phoneText);
+        userType = contentView.findViewById(R.id.userType);
+        memberdataResponse = ((BindActivity) getActivity()).getMemberdataResponse();
 
         if (type.equals("INFO")) {
             successLayout.setVisibility(View.GONE);
             selecteLayout.setVisibility(View.VISIBLE);
             nextButton.startTimer();
-            cardNumber.setBackground(getResources().getDrawable(R.drawable.border_red_gradient_carinfo_bg));
         } else {
             successLayout.setVisibility(View.VISIBLE);
             selecteLayout.setVisibility(View.GONE);
-            cardNumber.setBackground(getResources().getDrawable(R.drawable.border_add_face));
         }
+        if (memberdataResponse != null) {
+            if (memberdataResponse.getUserInfo().getSex() == 0) {
+                name.setText(memberdataResponse.getUserInfo().getName() + "   " + getResources().getString(R.string.boy));
+            } else {
+                name.setText(memberdataResponse.getUserInfo().getName() + "   " + getResources().getString(R.string.girl));
+            }
+            userType.setText(memberdataResponse.getUserInfo().getUserType().equals("1") ? getResources().getString(R.string.member) : getResources().getString(R.string.office_holder));
+            phoneText.setText(memberdataResponse.getUserInfo().getPhone());
+        }
+
         Utils.setOnClickListener(backButton, this);
         Utils.setOnClickListener(nextButton, this);
+
     }
 
 

@@ -31,12 +31,27 @@
                 android:src="@drawable/ic_finger_one" />
 
             <ImageView
-                android:layout_marginLeft="@dimen/w29"
                 android:layout_width="@dimen/w186"
                 android:layout_height="@dimen/w186"
+                android:layout_marginLeft="@dimen/w29"
                 android:src="@drawable/ic_finger_two" />
 
         </LinearLayout>
+
+
+        <com.dinuscxj.progressbar.CircleProgressBar
+            android:id="@+id/custom_progress"
+            android:layout_width="@dimen/w1"
+            android:layout_height="@dimen/w1"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/margin_main"
+            android:layout_marginTop="@dimen/margin_main"
+            app:progress_background_color="@color/translate"
+            app:progress_end_color="@color/red"
+            app:progress_start_color="@color/red"
+            app:progress_start_degree="-180"
+            app:progress_stroke_width="3dp"
+            app:style="solid_line" />
 
 
         <Button
@@ -46,7 +61,7 @@
             android:layout_marginTop="@dimen/h58"
             android:background="@drawable/border_add_face"
             android:gravity="center"
-            android:text="@string/introduce_faces"
+            android:text="@string/please_add_finger"
             android:textColor="@color/white"
             android:textSize="@dimen/w28"></Button>
 

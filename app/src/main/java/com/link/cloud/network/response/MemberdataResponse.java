@@ -10,6 +10,7 @@ import java.util.List;
  * 邮箱：zar.l@qq.com
  */
 public class MemberdataResponse {
+
     private UserInfoBean userInfo;
     private List<MemberCardBean> memberCard;
 

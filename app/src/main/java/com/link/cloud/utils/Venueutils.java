@@ -105,11 +105,10 @@ public class Venueutils {
         String oneResult = ("quality return=" + quaRtn) + ",result=" + quaScore[0] + ",score=" + quaScore[1] + ",fLeakRatio=" + quaScore[2] + ",fPress=" + quaScore[3];
         int quality = (int) quaScore[0];
         if (quality != 0) {
-            callBack.modelMsg(0, context.getString(R.string.move_finger));
+
         }
         byte[] feature = MdUsbService.extractImgModel(img, null, null);
         if (feature == null) {
-            callBack.modelMsg(0, context.getString(R.string.move_finger));
         } else {
             modOkProgress++;
             if (modOkProgress == 1) {//first model
@@ -117,7 +116,7 @@ public class Venueutils {
                 tipTimes[1] = 0;
                 modelImgMng.setImg1(img);
                 modelImgMng.setFeature1(feature);
-                callBack.modelMsg(1, context.getString(R.string.again_finger));
+                callBack.modelMsg(1,context.getString(R.string.again_finger));
             } else if (modOkProgress == 2) {//second model
                 ret = MdUsbService.fvSearchFeature(modelImgMng.getFeature1(), 1, img, pos, score);
                 if (ret && score[0] > MODEL_SCORE_THRESHOLD) {
@@ -127,26 +126,26 @@ public class Venueutils {
                         tipTimes[1] = 0;
                         modelImgMng.setImg2(img);
                         modelImgMng.setFeature2(feature);
-                        callBack.modelMsg(1, context.getString(R.string.again_finger));
+                        callBack.modelMsg(1,context.getString(R.string.again_finger));
                     } else {//第二次建模从图片中取特征值无效
                         modOkProgress = 1;
                         if (++tipTimes[0] <= 3) {
-                            callBack.modelMsg(2, context.getString(R.string.same_finger));
+                            callBack.modelMsg(2,context.getString(R.string.same_finger));
 
                         } else {//连续超过3次放了不同手指则忽略此次建模重来
                             modOkProgress = 0;
                             modelImgMng.reset();
-                            callBack.modelMsg(2, context.getString(R.string.same_finger));
+                            callBack.modelMsg(2,context.getString(R.string.same_finger));
                         }
                     }
                 } else {
                     modOkProgress = 1;
                     if (++tipTimes[0] <= 3) {
-                        callBack.modelMsg(2, context.getString(R.string.same_finger));
+                        callBack.modelMsg(2,context.getString(R.string.same_finger));
                     } else {//连续超过3次放了不同手指则忽略此次建模重来
                         modOkProgress = 0;
                         modelImgMng.reset();
-                        callBack.modelMsg(2, context.getString(R.string.same_finger));
+                        callBack.modelMsg(2,context.getString(R.string.same_finger));
                     }
                 }
             } else if (modOkProgress == 3) {//third model
@@ -157,7 +156,7 @@ public class Venueutils {
                         tipTimes[0] = 0;
                         tipTimes[1] = 0;
                         modelImgMng.setImg3(img);
-                        callBack.modelMsg(3, HexUtil.bytesToHexString(feature));
+                        callBack.modelMsg(3,HexUtil.bytesToHexString(feature));
                         modelImgMng.setFeature3(feature);
                         modelImgMng.reset();
                         mdDeviceBinder.closeDevice(0);
@@ -165,17 +164,17 @@ public class Venueutils {
                     } else {//第三次建模从图片中取特征值无效
                         modOkProgress = 2;
                         if (++tipTimes[1] <= 3) {
-                            callBack.modelMsg(2, context.getString(R.string.same_finger));
+                            callBack.modelMsg(2,context.getString(R.string.same_finger));
                         }
                     }
                 } else {
                     modOkProgress = 2;
                     if (++tipTimes[1] <= 3) {
-                        callBack.modelMsg(2, context.getString(R.string.same_finger));
+                        callBack.modelMsg(2,context.getString(R.string.same_finger));
                     } else {//连续超过3次放了不同手指则忽略此次建模重来
                         modOkProgress = 0;
                         modelImgMng.reset();
-                        callBack.modelMsg(2, context.getString(R.string.same_finger));
+                        callBack.modelMsg(2,context.getString(R.string.same_finger));
                     }
                 }
             } else {
@@ -190,7 +189,7 @@ public class Venueutils {
 
     public String identifyNewImg(final List<Person> peoples) {
         final int nThreads = peoples.size() / 1000 + 1;
-        ExecutorService executorService = Executors.newFixedThreadPool(nThreads);
+        ExecutorService executorService = Executors.newFixedThreadPool(3);
         List<Future<String>> futures = new ArrayList();
         for (int i = 0; i < nThreads; i++) {
             if (i == nThreads - 1) {
@@ -208,7 +207,6 @@ public class Venueutils {
                         sb.append(userBean.getFeature());
                         uids[position] = userBean.getUid();
                         position++;
-
                     }
                     byte[] allFeaturesBytes = HexUtil.hexStringToByte(sb.toString());
                     boolean identifyResult = MicroFingerVein.fv_index(allFeaturesBytes, allFeaturesBytes.length / 3352, img, pos, score);

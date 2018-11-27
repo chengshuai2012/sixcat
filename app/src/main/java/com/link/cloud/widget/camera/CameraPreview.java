@@ -13,6 +13,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by dong on 2018/5/23.
@@ -51,7 +52,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
                 public void onPictureTaken(byte[] data, Camera camera) {
                     if (null != listener) {
                         Bitmap bitmap = rotateBitmap(BitmapFactory.decodeByteArray(data, 0, data.length),
-                                displayDegree);
+                                90);
                         listener.onCaptured(bitmap);
                     }
                 }
@@ -108,15 +109,18 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     private void startCamera(SurfaceHolder holder) throws IOException {
         mCamera.setPreviewDisplay(holder);
         setCameraDisplayOrientation(mContext, cameraId, mCamera);
-
-        Camera.Size preSize = getCameraSize();
+        Camera.Parameters cameraParameter = mCamera.getParameters();
+        List<Camera.Size>  sizes=cameraParameter.getSupportedPreviewSizes();
 
         Camera.Parameters parameters = mCamera.getParameters();
-        parameters.setPreviewSize(preSize.width, preSize.height);
-        parameters.setPictureSize(preSize.width, preSize.height);
+        Camera.Size  thisSize=sizes.get(4);
+
+        parameters.setPreviewSize(thisSize.width, thisSize.height);
+        parameters.setPictureSize(thisSize.width, thisSize.height);
         parameters.setJpegQuality(100);
         mCamera.setParameters(parameters);
         mCamera.startPreview();
+
     }
 
     public Camera.Size getCameraSize() {
@@ -166,7 +170,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         } else {
             displayDegree = (info.orientation - degrees + 360) % 360;
         }
-        camera.setDisplayOrientation(displayDegree);
+        camera.setDisplayOrientation(0);
     }
 
 

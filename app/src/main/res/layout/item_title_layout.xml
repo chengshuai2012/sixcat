@@ -8,8 +8,8 @@
         style="@style/RadioButton"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/h50"
-        android:paddingLeft="@dimen/w30"
-        android:paddingRight="@dimen/w30"
+        android:paddingLeft="@dimen/w20"
+        android:paddingRight="@dimen/w20"
         android:gravity="center"
         android:text="录入人脸"
         android:textSize="@dimen/w20" />

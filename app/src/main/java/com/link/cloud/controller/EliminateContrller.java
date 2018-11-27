@@ -37,9 +37,9 @@ public class EliminateContrller {
     }
 
 
-    public void getLessonInfo(int type, String memberid, String coachid, String clerkid) {
+    public void getLessonInfo(int type, String memberid, String coachid) {
 
-        ApiFactory.getLessonInfo(User.get().getDeviceId(), type, memberid, coachid, clerkid).subscribe(new Action1<ApiResponse<LessonInfoResponse>>() {
+        ApiFactory.getLessonInfo(User.get().getDeviceId(), type, memberid, coachid).subscribe(new Action1<ApiResponse<LessonInfoResponse>>() {
             @Override
             public void call(ApiResponse<LessonInfoResponse> response) {
                 listener.getLessonInfoSuccess(response.getData());

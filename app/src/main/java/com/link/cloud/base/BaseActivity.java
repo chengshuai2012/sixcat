@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -35,6 +36,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
 
     private SimpleStyleDialog denyDialog;
     public Realm realm;
+    private long exitTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +81,19 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         super.onPause();
 
     }
+
+//
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+//            if ((System.currentTimeMillis() - exitTime) > 2000) { // 第一次System.currentTimeMillis()无论何时调用，差值肯定大于2000
+//
+//            }
+//            return true;
+//        }
+//        return super.onKeyDown(keyCode, event);
+//    }
+//
 
 
 

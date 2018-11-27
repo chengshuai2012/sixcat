@@ -16,20 +16,51 @@
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycle"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/h407" />
+        <LinearLayout
+            android:layout_width="@dimen/w436"
+            android:layout_height="@dimen/h250"
+            android:layout_marginTop="@dimen/h80"
+            android:background="@drawable/border_choose_one_gradient_bg"
+            android:orientation="vertical"
+            android:padding="@dimen/w30"
+            android:paddingLeft="@dimen/w30">
 
-        <Button
-            android:id="@+id/cardNumber"
-            android:layout_width="@dimen/w380"
-            android:layout_height="@dimen/h62"
-            android:textColor="@color/white"
-            android:gravity="center"
-            android:textSize="@dimen/w29"
-            android:layout_marginTop="@dimen/h6"
-            android:background="@drawable/border_red_gradient_carinfo_bg"></Button>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/next"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/w22" />
+
+
+                <TextView
+                    android:id="@+id/userType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/next"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/w22" />
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/phoneText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/next"
+                android:textColor="@color/white"
+                android:textSize="@dimen/w22" />
+
+
+        </LinearLayout>
+
 
 
     </LinearLayout>

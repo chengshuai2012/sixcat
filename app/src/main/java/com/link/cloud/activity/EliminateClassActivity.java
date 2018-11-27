@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.FrameLayout;
 
+import com.hwangjr.rxbus.RxBus;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.thread.EventThread;
 import com.link.cloud.Constants;
@@ -16,9 +17,8 @@ import com.link.cloud.adapter.PublicTitleAdapter;
 import com.link.cloud.base.BaseActivity;
 import com.link.cloud.bean.Person;
 import com.link.cloud.controller.EliminateContrller;
-import com.link.cloud.fragment.AddFingerFragment;
+import com.link.cloud.fragment.CheackFingerFragment;
 import com.link.cloud.fragment.CourseFragment;
-import com.link.cloud.fragment.UserMemberCardInfoFragment;
 import com.link.cloud.network.bean.LessonInfoResponse;
 import com.link.cloud.utils.RxTimerUtil;
 import com.orhanobut.logger.Logger;
@@ -66,13 +66,15 @@ public class EliminateClassActivity extends BaseActivity implements EliminateCon
         publicTitleAdapter = new PublicTitleAdapter(this);
         String[] bindArray = getResources().getStringArray(R.array.Eliminate_Array);
         List<String> date = new ArrayList<>();
-
         for (String dateInfo : bindArray) {
             date.add(dateInfo);
         }
         publicTitleAdapter.setDate(date);
         recycle.setAdapter(publicTitleAdapter);
-        showFragment(AddFingerFragment.class);
+        recycle.setNestedScrollingEnabled(false);
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.FragmentExtra.TYPE, getResources().getString(R.string.coach_finger));
+        showFragment(CheackFingerFragment.class, bundle);
         RealmResults<Person> users = realm.where(Person.class).findAll();
         peoples = new ArrayList<>();
         peoples.addAll(realm.copyFromRealm(users));
@@ -88,40 +90,44 @@ public class EliminateClassActivity extends BaseActivity implements EliminateCon
                 System.out.println("number=" + number);
                 if (isScanning) {
                     int state = SixCatApplication.getVenueUtils().getState();
-                    if (state == 3) {
+                    if (state == 3 || state == 4) {
                         long startTime = System.currentTimeMillis();   //获取开始时间
-
                         String uid = SixCatApplication.getVenueUtils().identifyNewImg(peoples);
-                        long endTime = System.currentTimeMillis(); //获取结束时间
-                        System.out.println("程序运行时间： " + (endTime - startTime) + "ms");
                         if (uid == null) {
                             Logger.e("贾工要的信息+Person:uid=get img failed, please try again ");
-                            speak(getResources().getString(R.string.cheack_fail));
+                            speak(getResources().getString(R.string.move_finger));
                         }
                         final Person uuid = realm.where(Person.class).equalTo("uid", uid).findFirst();
                         if (null != uuid) {
-                            isScanning = false;
+                            System.out.println("贾工要的信息+Person:uid=" + uuid.getUid());
                             if (coachPerson == null) {
                                 if (uuid.getUserType() == 2) {
                                     coachPerson = uuid;
-                                    publicTitleAdapter.selectPosition(1);
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString(Constants.FragmentExtra.TYPE, getResources().getString(R.string.student_finger));
+                                    showNewFragment(CheackFingerFragment.class, bundle);
+                                    publicTitleAdapter.next();
+                                    speakMust(getResources().getString(R.string.student_finger));
                                 } else {
-                                    speak(getResources().getString(R.string.coach_first));
+                                    speak(getResources().getString(R.string.coach_finger));
                                 }
                             } else {
                                 if (uuid.getUserType() == 1) {
                                     studentPerson = uuid;
-                                    eliminateContrller.getLessonInfo(2, studentPerson.getUid(), coachPerson.getUid(), "");
+                                    if (studentPerson != null && coachPerson != null) {
+                                        rxTimerUtil.cancel();
+                                        eliminateContrller.getLessonInfo(1, studentPerson.getUid(), coachPerson.getUid());
+                                    }
                                 } else {
                                     speak(getResources().getString(R.string.student_finger));
                                 }
                             }
-                            System.out.println("贾工要的信息+Person:uid=" + uuid.getUid());
+
                         } else {
                             speak(getResources().getString(R.string.cheack_fail));
                         }
-                    } else if (state == 4) {
-                        speak(getResources().getString(R.string.move_finger));
+                        long endTime = System.currentTimeMillis(); //获取结束时间
+                        System.out.println("程序运行时间： " + (endTime - startTime) + "ms");
                     }
                 }
             }
@@ -183,13 +189,15 @@ public class EliminateClassActivity extends BaseActivity implements EliminateCon
         isScanning = false;
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.FragmentExtra.BEAN, response);
-        showActivity(CourseFragment.class, bundle);
+        showNewFragment(CourseFragment.class, bundle);
         publicTitleAdapter.selectPosition(2);
+
     }
 
     @Override
     public void getLessonInfoFail(String message) {
-
+        speak(message);
+        finish();
     }
 
     @Override

@@ -18,6 +18,7 @@ import com.link.cloud.network.response.MemberdataResponse;
 import com.link.cloud.network.response.PageInfoResponse;
 import com.link.cloud.network.response.RegisterResponse;
 
+import java.lang.reflect.Member;
 import java.util.List;
 
 import okhttp3.ResponseBody;
@@ -111,6 +112,30 @@ public interface ApiService {
     @POST("getLessonInfo")
     @Headers("Content-Type:" + RetrofitClient.JSON)
     Observable<ApiResponse<LessonInfoResponse>> getLessonInfo(@Body JsonObject params);
+
+
+
+    /**
+     * 选择消课接口
+     */
+    @POST("selectLesson")
+    @Headers("Content-Type:" + RetrofitClient.JSON)
+    Observable<ApiResponse>selectLesson(@Body JsonObject params);
+
+
+
+    /**
+     * 2.指静脉设备绑定会员接口
+     *
+     * @param params REQUEST BODY请求体
+     * @return Observable<ReturnBean>
+     */
+    @POST("bindUserFinger")
+    @Headers("Content-Type:" + RetrofitClient.JSON)
+    Observable<ApiResponse<MemberdataResponse>> bindVeinMemeber(@Body JsonObject params);
+
+
+
     /**
      * 12.检测软件版本
      */

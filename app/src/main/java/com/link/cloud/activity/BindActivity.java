@@ -17,8 +17,8 @@ import com.link.cloud.fragment.AddFaceFragment;
 import com.link.cloud.fragment.AddFingerFragment;
 import com.link.cloud.fragment.InputPhoneFragment;
 import com.link.cloud.fragment.UserMemberCardInfoFragment;
-import com.link.cloud.utils.Utils;
-import com.zitech.framework.utils.ToastMaster;
+import com.link.cloud.network.response.MemberdataResponse;
+import com.link.cloud.utils.RxTimerUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,15 +30,32 @@ public class BindActivity extends BaseActivity {
     private RecyclerView recycle;
     private FrameLayout contentFrame;
     private String type;
-
-
     private PublicTitleAdapter publicTitleAdapter;
+    private MemberdataResponse memberdataResponse;
+    private RxTimerUtil rxTimerUtil;
+
+
+    public MemberdataResponse getMemberdataResponse() {
+        return memberdataResponse;
+    }
+
+    public void setMemberdataResponse(MemberdataResponse memberdataResponse) {
+        this.memberdataResponse = memberdataResponse;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         type = getIntent().getExtras().getString(Constants.ActivityExtra.TYPE);
         super.onCreate(savedInstanceState);
+        rxTimerUtil = new RxTimerUtil();
         initView();
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        rxTimerUtil.cancel();
     }
 
     @Override
@@ -57,6 +74,8 @@ public class BindActivity extends BaseActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recycle.setLayoutManager(layoutManager);
+        recycle.setNestedScrollingEnabled(false);//禁止滑动
+
         publicTitleAdapter = new PublicTitleAdapter(this);
         String[] faceArray = getResources().getStringArray(R.array.bind_face_Array);
         String[] fingerArray = getResources().getStringArray(R.array.bind_finger_Array);
@@ -72,8 +91,11 @@ public class BindActivity extends BaseActivity {
         }
         publicTitleAdapter.setDate(date);
         recycle.setAdapter(publicTitleAdapter);
+        recycle.setNestedScrollingEnabled(false);
+
         showFragment(InputPhoneFragment.class);
     }
+
 
     @Subscribe(thread = EventThread.MAIN_THREAD)
     public void onDataChanged(Events.NextView event) {
@@ -83,6 +105,20 @@ public class BindActivity extends BaseActivity {
         showNewFragment(UserMemberCardInfoFragment.class, bundle);
     }
 
+    @Subscribe(thread = EventThread.MAIN_THREAD)
+    public void AddFingerSuccess(Events.AddFingerSuccess event) {
+        publicTitleAdapter.next();
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.FragmentExtra.TYPE, "FINISH");
+        showNewFragment(UserMemberCardInfoFragment.class, bundle);
+        rxTimerUtil.timer(10000, new RxTimerUtil.IRxNext() {
+            @Override
+            public void doNext(long number) {
+                finish();
+            }
+        });
+    }
+
 
     @Subscribe(thread = EventThread.MAIN_THREAD)
     public void CardInfoNextView(Events.CardInfoNextView event) {
@@ -90,9 +126,8 @@ public class BindActivity extends BaseActivity {
         if (type.equals("FACE")) {
             showNewFragment(AddFaceFragment.class);
         } else {
-          showNewFragment(AddFingerFragment.class);
+            showNewFragment(AddFingerFragment.class);
         }
-
     }
 
 

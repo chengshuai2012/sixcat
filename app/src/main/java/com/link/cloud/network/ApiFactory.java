@@ -2,6 +2,7 @@ package com.link.cloud.network;
 
 
 import com.google.gson.JsonObject;
+import com.link.cloud.User;
 import com.link.cloud.bean.FaceDateBean;
 import com.link.cloud.bean.Person;
 import com.link.cloud.network.bean.LessonInfoResponse;
@@ -139,17 +140,49 @@ public class ApiFactory {
     }
 
     /**
+     * 2.指静脉设备绑定会员接口
+     */
+    public static Observable<ApiResponse<MemberdataResponse>> bindVeinMemeber(String userType, String numberValue, String feature) {
+        JsonObject params = new JsonObject();
+        params.addProperty("deviceId", User.get().getDeviceId());
+        params.addProperty("userType", userType);
+        params.addProperty("numberType", User.get().getNumberType());
+        params.addProperty("numberValue", numberValue);
+        params.addProperty("feature1", feature);
+        params.addProperty("feature2", feature);
+        params.addProperty("feature3", feature);
+        params.addProperty("feature", feature);
+        return getApiService().bindVeinMemeber(params).map(new HttpResultFunc()).compose(SchedulersCompat.applyIoSchedulers());
+    }
+
+
+    /**
      * 1.根据设备ID和手机号查询会员信息
      *
      * @return Observable<Member>
      */
-    public static Observable<ApiResponse<LessonInfoResponse>> getLessonInfo(String deviceID, int type, String memberid, String coachid, String clerkid) {
+    public static Observable<ApiResponse<LessonInfoResponse>> getLessonInfo(String deviceID, int type, String memberid, String coachid) {
         JsonObject pareams = new JsonObject();
         pareams.addProperty("deviceId", deviceID);
         pareams.addProperty("type", type);
         pareams.addProperty("memberid", memberid);
         pareams.addProperty("coachid", coachid);
         return getApiService().getLessonInfo(pareams).map(new HttpResultFunc()).compose(SchedulersCompat.applyIoSchedulers());
+    }
+
+    /**
+     * 选择消课接口
+     */
+    public static Observable<ApiResponse> selectLesson(int type, String lessonId, String memberid, String coachid, String clerkid, String CardNo, int count) {
+        JsonObject params = new JsonObject();
+        params.addProperty("deviceId", User.get().getDeviceId());
+        params.addProperty("type", type);
+        params.addProperty("lessonId", lessonId);
+        params.addProperty("memberid", memberid);
+        params.addProperty("coachid", coachid);
+        params.addProperty("cardNo", CardNo);
+        params.addProperty("number", count);
+        return getApiService().selectLesson(params).map(new HttpResultFunc()).compose(SchedulersCompat.applyIoSchedulers());
     }
 
 

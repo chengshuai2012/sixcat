@@ -41,17 +41,22 @@
             android:textSize="@dimen/w28"></Button>
 
 
+        　
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
 
     </LinearLayout>
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:layout_marginBottom="@dimen/w30"
         android:layout_marginTop="@dimen/h38"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <TextView
@@ -67,9 +72,9 @@
 
         <TextView
             android:id="@+id/nextButton"
-            android:layout_marginLeft="@dimen/w20"
             android:layout_width="@dimen/w171"
             android:layout_height="@dimen/h62"
+            android:layout_marginLeft="@dimen/w20"
             android:background="@drawable/common_button_bg"
             android:gravity="center"
             android:text="@string/next"

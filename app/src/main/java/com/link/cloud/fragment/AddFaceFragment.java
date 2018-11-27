@@ -22,6 +22,7 @@ import com.guo.android_extend.java.ExtOutputStream;
 import com.hwangjr.rxbus.RxBus;
 import com.link.cloud.Events;
 import com.link.cloud.R;
+import com.link.cloud.activity.BindActivity;
 import com.link.cloud.base.BaseFragment;
 import com.link.cloud.utils.FaceDB;
 import com.link.cloud.widget.camera.CameraListener;
@@ -43,19 +44,19 @@ public class AddFaceFragment extends BaseFragment {
 
 
     private CircleCameraLayout rootLayout;
-    private ImageView imageView;
     private CameraPreview cameraPreview;
-    private boolean hasPermissions;
     private boolean resume = false;//解决home键黑屏问题
     private android.widget.TextView backButton;
     private android.widget.TextView nextButton;
+    private ImageView image;
+
     private AFR_FSDKFace mAFR_FSDKFace;
 
     @Override
     public void onInflateView(View contentView) {
         super.onInflateView(contentView);
         initView(contentView);
-
+        ((BindActivity)getActivity()).speak(getResources().getString(R.string.please_sure));
     }
 
     @Override
@@ -92,7 +93,7 @@ public class AddFaceFragment extends BaseFragment {
             @Override
             public void onCaptured(Bitmap bitmap) {
                 if (null != bitmap) {
-
+                    image.setImageBitmap(bitmap);
                     try {
                         File file= new File(Environment.getExternalStorageDirectory()+"/register.jpg");
                         if(file.exists()){
@@ -101,6 +102,8 @@ public class AddFaceFragment extends BaseFragment {
                         FileOutputStream fileOutputStream=new FileOutputStream(file.getAbsolutePath());
                         bitmap.compress(Bitmap.CompressFormat.JPEG,85,fileOutputStream);
                         saveData(bitmap);
+
+
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
@@ -186,8 +189,8 @@ public class AddFaceFragment extends BaseFragment {
         backButton = contentView.findViewById(R.id.backButton);
         nextButton = contentView.findViewById(R.id.nextButton);
         rootLayout = contentView.findViewById(R.id.rootLayout);
+        image=contentView.findViewById(R.id.image);
         startCamera();
-
         ViewUtils.setOnClickListener(backButton, this);
         ViewUtils.setOnClickListener(nextButton, this);
     }
@@ -197,6 +200,7 @@ public class AddFaceFragment extends BaseFragment {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.backButton:
+//                cameraPreview.releaseCamera();
                 cameraPreview.releaseCamera();
                 RxBus.get().post(new Events.BackView());
                 getActivity().onBackPressed();

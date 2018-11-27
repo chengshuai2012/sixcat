@@ -8,7 +8,11 @@ import android.widget.TextView;
 import com.hwangjr.rxbus.RxBus;
 import com.link.cloud.Events;
 import com.link.cloud.R;
+import com.link.cloud.User;
+import com.link.cloud.activity.BindActivity;
 import com.link.cloud.base.BaseFragment;
+import com.link.cloud.controller.InputPhoneContrller;
+import com.link.cloud.network.response.MemberdataResponse;
 import com.link.cloud.utils.Utils;
 import com.zitech.framework.utils.ViewUtils;
 
@@ -16,7 +20,8 @@ import com.zitech.framework.utils.ViewUtils;
  * 作者：qianlu on 2018/10/23 10:51
  * 邮箱：zar.l@qq.com
  */
-public class InputPhoneFragment extends BaseFragment {
+public class InputPhoneFragment extends BaseFragment implements InputPhoneContrller.InputPhoneListener {
+
     private android.widget.EditText phoneNum;
     private android.widget.Button bindKeypad1;
     private android.widget.Button bindKeypad2;
@@ -33,6 +38,7 @@ public class InputPhoneFragment extends BaseFragment {
     private android.widget.TextView backButton;
     private android.widget.TextView nextButton;
     private StringBuilder builder;
+    private InputPhoneContrller inputPhoneContrller;
 
     @Override
     protected int getContentViewId() {
@@ -46,6 +52,7 @@ public class InputPhoneFragment extends BaseFragment {
     }
 
     private void initView(View contentView) {
+        inputPhoneContrller = new InputPhoneContrller(this, getActivity());
         phoneNum = (EditText) contentView.findViewById(R.id.phoneNum);
         bindKeypad1 = (Button) contentView.findViewById(R.id.bind_keypad_1);
         bindKeypad2 = (Button) contentView.findViewById(R.id.bind_keypad_2);
@@ -63,17 +70,19 @@ public class InputPhoneFragment extends BaseFragment {
         nextButton = (TextView) contentView.findViewById(R.id.nextButton);
         Utils.setCanNotEditAndClick(phoneNum);
         builder = new StringBuilder();
-        ViewUtils.setOnClickListener(bindKeypad1, this);
-        ViewUtils.setOnClickListener(bindKeypad2, this);
-        ViewUtils.setOnClickListener(bindKeypad3, this);
-        ViewUtils.setOnClickListener(bindKeypad4, this);
-        ViewUtils.setOnClickListener(bindKeypad5, this);
-        ViewUtils.setOnClickListener(bindKeypad6, this);
-        ViewUtils.setOnClickListener(bindKeypad7, this);
-        ViewUtils.setOnClickListener(bindKeypad8, this);
-        ViewUtils.setOnClickListener(bindKeypad9, this);
+
+        bindKeypad1.setOnClickListener(this);
+        bindKeypad2.setOnClickListener(this);
+        bindKeypad3.setOnClickListener(this);
+        bindKeypad4.setOnClickListener(this);
+        bindKeypad5.setOnClickListener(this);
+        bindKeypad6.setOnClickListener(this);
+        bindKeypad7.setOnClickListener(this);
+        bindKeypad8.setOnClickListener(this);
+        bindKeypad9.setOnClickListener(this);
+        bindKeypad0.setOnClickListener(this);
+
         ViewUtils.setOnClickListener(cleanButton, this);
-        ViewUtils.setOnClickListener(bindKeypad0, this);
         ViewUtils.setOnClickListener(deleteButton, this);
         ViewUtils.setOnClickListener(backButton, this);
         ViewUtils.setOnClickListener(nextButton, this);
@@ -121,9 +130,32 @@ public class InputPhoneFragment extends BaseFragment {
                 getActivity().finish();
                 break;
             case R.id.nextButton:
-                RxBus.get().post(new Events.NextView());
+                String phone = phoneNum.getText().toString().trim();
+                if (Utils.isPhoneNum(phone)) {
+                    inputPhoneContrller.getMemInfo(User.get().getDeviceId(), User.get().getNumberType(), phone);
+                } else {
+                    ((BindActivity) getActivity()).speak(getResources().getString(R.string.please_input_tel_right));
+                }
                 break;
         }
+
+    }
+
+    @Override
+    public void getMemInfoSuccess(MemberdataResponse response) {
+        if (response != null) {
+            ((BindActivity) getActivity()).setMemberdataResponse(response);
+            RxBus.get().post(new Events.NextView());
+        }
+    }
+
+    @Override
+    public void getMemInfoFail(String message) {
+        ((BindActivity) getActivity()).speak(message);
+    }
+
+    @Override
+    public void newWorkFail() {
 
     }
 }

@@ -52,7 +52,12 @@ public class MainActivity extends BaseActivity {
         classeLiminateLayout.setOnClickListener(this);
 
         ViewUtils.setOnClickListener(classeLiminateLayout,this);
-        requestRxPermissions(getString(R.string.open_camera_error), Manifest.permission.CAMERA);
+
+
+        if (android.hardware.Camera.getNumberOfCameras() != 0) {
+            addFaceButton.setVisibility(View.VISIBLE);
+            requestRxPermissions(getString(R.string.open_camera_error), Manifest.permission.CAMERA);
+        }
 
     }
 

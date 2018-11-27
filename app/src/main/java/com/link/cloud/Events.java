@@ -26,16 +26,20 @@ public class Events {
     public static class NextView {
     }
 
+    public static class AddFingerSuccess {
+    }
+
     public static class CardInfoNextView {
+    }
+
+    public static class UpdateTextView {
     }
 
     public static class BackView {
     }
 
-      public static class BackAndClearnView {
+    public static class BackAndClearnView {
     }
-
-
 
 
     public static class SuccessView {

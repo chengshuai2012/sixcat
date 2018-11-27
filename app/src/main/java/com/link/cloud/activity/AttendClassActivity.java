@@ -9,10 +9,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.hwangjr.rxbus.annotation.Subscribe;
+import com.hwangjr.rxbus.thread.EventThread;
 import com.link.cloud.Constants;
+import com.link.cloud.Events;
 import com.link.cloud.R;
 import com.link.cloud.adapter.PublicTitleAdapter;
 import com.link.cloud.base.BaseActivity;
+import com.link.cloud.fragment.AddFingerFragment;
+import com.link.cloud.fragment.CheackFingerFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,22 +40,31 @@ public class AttendClassActivity extends BaseActivity {
 
     @Override
     protected void initViews() {
+        speak(getResources().getString(R.string.coach_finger));
         recycle = (RecyclerView) findViewById(R.id.recycle);
         contentFrame = (FrameLayout) findViewById(R.id.content_frame);
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recycle.setLayoutManager(layoutManager);
         PublicTitleAdapter publicTitleAdapter = new PublicTitleAdapter(this);
         String[] bindArray = getResources().getStringArray(R.array.Eliminate_Array);
         List<String> date = new ArrayList<>();
-
         for (String dateInfo : bindArray) {
             date.add(dateInfo);
         }
         publicTitleAdapter.setDate(date);
         recycle.setAdapter(publicTitleAdapter);
+        recycle.setNestedScrollingEnabled(false);
+
+        showFragment(CheackFingerFragment.class);
     }
+
+
+    @Subscribe(thread = EventThread.MAIN_THREAD)
+    public void BackView(Events.BackView event) {
+        finish();
+    }
+
 
     @Override
     protected int getLayoutId() {

@@ -9,8 +9,10 @@ import android.widget.TextView;
 
 import com.link.cloud.R;
 import com.link.cloud.base.CardBaseAdapter;
+import com.link.cloud.network.bean.MemberCardBean;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -18,7 +20,7 @@ import java.util.ArrayList;
  */
 
 public class LessonConsumeAdapter extends CardBaseAdapter<LessonConsumeAdapter.LessonConsumeHolder> {
-    private ArrayList<String> mData;
+    private List<MemberCardBean> mData;
     private Context context;
 
 
@@ -32,7 +34,7 @@ public class LessonConsumeAdapter extends CardBaseAdapter<LessonConsumeAdapter.L
         void change(int position);
     }
 
-    public LessonConsumeAdapter(ArrayList<String> mData, Context context) {
+    public LessonConsumeAdapter(List<MemberCardBean> mData, Context context) {
         this.mData = mData;
         this.context = context;
     }
@@ -49,8 +51,10 @@ public class LessonConsumeAdapter extends CardBaseAdapter<LessonConsumeAdapter.L
         if (onDateChangeListner!=null){
             onDateChangeListner.change(position);
         }
+        MemberCardBean bean=mData.get(position);
         LessonConsumeHolder lessonConsumeHolder = (LessonConsumeHolder) holder;
-        lessonConsumeHolder.name.setText(mData.get(position));
+        lessonConsumeHolder.name.setText(bean.getCardName());
+        lessonConsumeHolder.phoneText.setText(bean.getBeginTime());
     }
 
 

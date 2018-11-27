@@ -2,6 +2,7 @@
     <string name="app_name">sixcat</string>
     <string name="Intelligence_place">智能场馆</string>
     <string name="wel_join">欢迎体验智能场馆自助服务</string>
+    <string name="use_this">请使用以下签到方式</string>
     <string name="add_face">添加人脸识别</string>
     <string name="add_finger">添加指静脉</string>
     <string name="bind_face_id">绑定人脸</string>
@@ -9,6 +10,7 @@
     <string name="class_eliminate">消课</string>
     <string name="sign_in">签到</string>
     <string name="please_input_tel">请输入手机号</string>
+    <string name="please_input_tel_right">请输入正确的手机号</string>
     <string name="digitKeyppad_clear">清空</string>
     <string name="digitKeyppad_delect">退格</string>
     <string name="digitKeyppad_zero">0</string>
@@ -46,10 +48,30 @@
 
 
     <string name="coach_finger">请教练放置手指</string>
-
+    <string name="none_identify">未识别</string>
     <string name="cheack_fail">验证失败</string>
     <string name="coach_first">请教练先放手指</string>
     <string name="student_finger">请学员放置手指</string>
+    <string name="none_faces">无人脸数据</string>
+    <string name="boy">男</string>
+    <string name="girl">女</string>
+
+    <string name="member">会员</string>
+    <string name="office_holder">工作人员</string>
+    <string name="right_finger">请正确放置手指</string>
+    <string name="please_sure">请确认个人信息</string>
+    <string name="please_add_finger">请放置手指</string>
+    <string name="cheack_sueccess">验证成功</string>
+    <string name="class_time">上课时间</string>
+    <string name="souke_coach">授课教练</string>
+
+
+
+
+
+
+
+
 
 
 </resources>
