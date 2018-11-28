@@ -1,12 +1,14 @@
 package com.link.cloud.bean;
 
+import java.io.Serializable;
+
 import io.realm.RealmObject;
 
 /**
  * Created by choan on 2018/8/4.
  */
 
-public class Person extends RealmObject {
+public class Person extends RealmObject implements Serializable{
 
 
     /**

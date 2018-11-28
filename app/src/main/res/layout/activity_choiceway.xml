@@ -121,6 +121,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/h219"
         android:layout_marginLeft="@dimen/w45"
+        android:visibility="gone"
         android:layout_marginRight="@dimen/w45"
         android:layout_marginTop="@dimen/h28"
         android:background="@drawable/border_choose_orange_gradient_bg"

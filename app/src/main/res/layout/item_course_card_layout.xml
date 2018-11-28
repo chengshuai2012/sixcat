@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootLayout"
+    android:layout_width="@dimen/w315"
+    android:layout_height="@dimen/h164"
+    android:background="@drawable/border_choose_one_gradient_bg"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/h10">
+
+
+    <TextView
+        android:id="@+id/cardName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/w30"
+        android:textColor="@color/white"
+        android:textSize="@dimen/w18"
+        tools:text="@string/next" />
+
+    <TextView
+        android:id="@+id/surplusTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/w30"
+        android:textColor="@color/white"
+        android:textSize="@dimen/w18"
+        tools:text="@string/next" />
+
+    <TextView
+        android:id="@+id/classTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/h10"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="@dimen/w18"
+        tools:text="@string/next" />
+
+    <TextView
+        android:id="@+id/cardType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:paddingRight="@dimen/w30"
+        android:textColor="@color/white"
+        android:textSize="@dimen/w18"
+        tools:text="@string/next" />
+
+
+    <TextView
+        android:id="@+id/termOfValidity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:paddingRight="@dimen/w30"
+        android:textColor="@color/white"
+        android:textSize="@dimen/w18"
+        tools:text="@string/next" />
+
+
+</LinearLayout>

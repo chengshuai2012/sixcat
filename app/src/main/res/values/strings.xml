@@ -64,9 +64,16 @@
     <string name="cheack_sueccess">验证成功</string>
     <string name="class_time">上课时间</string>
     <string name="souke_coach">授课教练</string>
+    <string name="class_name">卡名:</string>
+    <string name="surplus_time">剩余次数:</string>
+    <string name="card_number">卡号:</string>
+    <string name="card_type">类型:</string>
+    <string name="term_of_validity">有效期至:</string>
 
 
+    <string name="please_begain">请开启你的健身之旅</string>
 
+    <string name="sign_successful">签到成功</string>
 
 
 

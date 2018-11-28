@@ -6,7 +6,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.FrameLayout;
 
-import com.hwangjr.rxbus.RxBus;
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.thread.EventThread;
 import com.link.cloud.Constants;
@@ -19,7 +18,11 @@ import com.link.cloud.bean.Person;
 import com.link.cloud.controller.EliminateContrller;
 import com.link.cloud.fragment.CheackFingerFragment;
 import com.link.cloud.fragment.CourseFragment;
+import com.link.cloud.fragment.MemberCardInfoFragment;
+import com.link.cloud.network.bean.CardInfoBean;
+import com.link.cloud.network.bean.LessonInfoBean;
 import com.link.cloud.network.bean.LessonInfoResponse;
+import com.link.cloud.network.response.ApiResponse;
 import com.link.cloud.utils.RxTimerUtil;
 import com.orhanobut.logger.Logger;
 
@@ -36,7 +39,6 @@ import io.realm.RealmResults;
 public class EliminateClassActivity extends BaseActivity implements EliminateContrller.EliminateListener {
 
     private RecyclerView recycle;
-    private FrameLayout contentFrame;
     private RxTimerUtil rxTimerUtil;
     private boolean isScanning = false;
     private Person coachPerson;
@@ -44,6 +46,7 @@ public class EliminateClassActivity extends BaseActivity implements EliminateCon
     private EliminateContrller eliminateContrller;
     private PublicTitleAdapter publicTitleAdapter;
     private List<Person> peoples;
+
 
     @Override
     protected void initViews() {
@@ -58,7 +61,6 @@ public class EliminateClassActivity extends BaseActivity implements EliminateCon
     private void initView() {
         speak(getResources().getString(R.string.coach_finger));
         recycle = (RecyclerView) findViewById(R.id.recycle);
-        contentFrame = (FrameLayout) findViewById(R.id.content_frame);
         eliminateContrller = new EliminateContrller(this, this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -116,7 +118,7 @@ public class EliminateClassActivity extends BaseActivity implements EliminateCon
                                     studentPerson = uuid;
                                     if (studentPerson != null && coachPerson != null) {
                                         rxTimerUtil.cancel();
-                                        eliminateContrller.getLessonInfo(1, studentPerson.getUid(), coachPerson.getUid());
+                                        eliminateContrller.getLessonInfo(2, studentPerson.getUid(), coachPerson.getUid());
                                     }
                                 } else {
                                     speak(getResources().getString(R.string.student_finger));
@@ -133,6 +135,11 @@ public class EliminateClassActivity extends BaseActivity implements EliminateCon
             }
 
         });
+    }
+
+
+    public void selectLesson(LessonInfoBean lessonInfoBean, CardInfoBean cardInfoBean) {
+        eliminateContrller.selectLesson(2, lessonInfoBean.getLessonId(), studentPerson.getUid(), coachPerson.getUid(), "", cardInfoBean.getCardNo(), 1);
     }
 
 
@@ -201,7 +208,25 @@ public class EliminateClassActivity extends BaseActivity implements EliminateCon
     }
 
     @Override
-    public void newWorkFail() {
+    public void selectLessonSuccess(ApiResponse response) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constants.FragmentExtra.BEAN, studentPerson);
+        showNewFragment(MemberCardInfoFragment.class, bundle);
+        rxTimerUtil.timer(10000, new RxTimerUtil.IRxNext() {
+            @Override
+            public void doNext(long number) {
+                finish();
+            }
+        });
+    }
 
+    @Override
+    public void selectLessonFail(String message) {
+            speak(message);
+    }
+
+    @Override
+    public void newWorkFail() {
+        speak(getResources().getString(R.string.net_error));
     }
 }

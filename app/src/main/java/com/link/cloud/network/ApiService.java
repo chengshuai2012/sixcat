@@ -123,6 +123,16 @@ public interface ApiService {
     Observable<ApiResponse>selectLesson(@Body JsonObject params);
 
 
+    /**
+     * 9.新增签到接口 员工&会员签到
+     *
+     * @param params REQUEST BODY请求体
+     * @return Observable<ReturnBean>
+     */
+    @POST("checkIn")
+    @Headers("Content-Type:" + RetrofitClient.JSON)
+    Observable<ApiResponse> signMember(@Body JsonObject params);
+
 
     /**
      * 2.指静脉设备绑定会员接口

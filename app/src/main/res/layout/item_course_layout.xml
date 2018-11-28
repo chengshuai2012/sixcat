@@ -22,7 +22,7 @@
         android:id="@+id/coachName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/h20"
+        android:layout_marginTop="@dimen/h10"
         android:textColor="@color/white"
         android:textSize="@dimen/w18"
         tools:text="@string/next" />
@@ -31,7 +31,7 @@
         android:id="@+id/classTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/h20"
+        android:layout_marginTop="@dimen/h10"
         android:textColor="@color/white"
         android:textSize="@dimen/w18"
         tools:text="@string/next" />

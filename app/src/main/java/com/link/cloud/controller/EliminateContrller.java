@@ -28,6 +28,11 @@ public class EliminateContrller {
 
         void getLessonInfoFail(String message);
 
+
+        void selectLessonSuccess(ApiResponse response);
+
+        void selectLessonFail(String message);
+
         void newWorkFail();
     }
 
@@ -36,6 +41,27 @@ public class EliminateContrller {
         this.context = context;
     }
 
+
+    public void selectLesson(int type, String lessonId, String memberid, String coachid, String clerkid, String cardNo, int count) {
+
+        ApiFactory.selectLesson(type, lessonId, memberid, coachid, clerkid, cardNo, count).subscribe(new Action1<ApiResponse>() {
+            @Override
+            public void call(ApiResponse response) {
+                listener.selectLessonSuccess(response);
+            }
+        }, new Action1<Throwable>() {
+            @Override
+            public void call(Throwable throwable) {
+                if (throwable instanceof ConnectException || throwable instanceof TimeoutException) {
+                    listener.newWorkFail();
+                } else {
+                    listener.selectLessonFail(throwable.getMessage());
+                }
+            }
+        });
+
+
+    }
 
     public void getLessonInfo(int type, String memberid, String coachid) {
 

@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.link.cloud.User;
 import com.link.cloud.bean.FaceDateBean;
 import com.link.cloud.bean.Person;
+import com.link.cloud.network.bean.Code_Message;
 import com.link.cloud.network.bean.LessonInfoResponse;
 import com.link.cloud.network.bean.SignUser;
 import com.link.cloud.network.request.GetDeviceIdRequest;
@@ -14,6 +15,7 @@ import com.link.cloud.network.response.MemberdataResponse;
 import com.link.cloud.network.response.PageInfoResponse;
 import com.link.cloud.network.response.RegisterResponse;
 import com.link.cloud.network.subscribe.SchedulersCompat;
+import com.orhanobut.logger.Logger;
 
 import java.util.HashMap;
 import java.util.List;
@@ -183,6 +185,16 @@ public class ApiFactory {
         params.addProperty("cardNo", CardNo);
         params.addProperty("number", count);
         return getApiService().selectLesson(params).map(new HttpResultFunc()).compose(SchedulersCompat.applyIoSchedulers());
+    }
+
+
+    public static Observable<ApiResponse> signedMember(String deviceId, String uid, String fromType) {
+        JsonObject params = new JsonObject();
+        params.addProperty("deviceId", deviceId);
+        params.addProperty("uid", uid);
+        params.addProperty("fromType", fromType);
+        return getApiService().signMember(params).map(new HttpResultFunc()).compose(SchedulersCompat.applyIoSchedulers());
+
     }
 
 
