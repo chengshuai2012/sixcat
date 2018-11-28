@@ -3,14 +3,26 @@ package com.link.cloud.activity;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.link.cloud.Constants;
 import com.link.cloud.R;
+import com.link.cloud.User;
 import com.link.cloud.base.BaseActivity;
+import com.link.cloud.network.ApiFactory;
+import com.link.cloud.network.response.ApiResponse;
+import com.link.cloud.network.response.AppUpdateInfoResponse;
+import com.link.cloud.network.subscribe.ProgressSubscriber;
+import com.link.cloud.utils.DownloadUtils;
+import com.link.cloud.utils.Utils;
+import com.orhanobut.logger.Logger;
+import com.zitech.framework.utils.ToastMaster;
 import com.zitech.framework.utils.ViewUtils;
+
+import java.io.File;
 
 @SuppressLint("Registered")
 public class MainActivity extends BaseActivity {
@@ -26,6 +38,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initView();
+        appUpdateInfo(User.get().getDeviceId());
     }
 
     @Override
@@ -33,6 +46,35 @@ public class MainActivity extends BaseActivity {
 
     }
 
+    public void appUpdateInfo(String deviceId) {
+        ApiFactory.appUpdateInfo(deviceId).subscribe(new ProgressSubscriber<ApiResponse<AppUpdateInfoResponse>>(this) {
+            @Override
+            public void onNext(ApiResponse<AppUpdateInfoResponse> response) {
+                int version = Utils.getVersionCode(MainActivity.this);
+                if(version<response.getData().getPackage_version()){
+                    downLoadApk(response.getData().getPackage_path());
+                }
+            }
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+            }
+        });
+    }
+
+    private void downLoadApk(String downloadurl) {
+        // 判断当前用户是否有sd卡
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "lingxi.apk");
+            if (file.exists()) {
+                file.delete();
+            }
+            ToastMaster.longToast(R.string.download);
+            DownloadUtils utils = new DownloadUtils(this);
+            utils.downloadAPK(downloadurl, "lingxi.apk");
+            Logger.e(file.getAbsolutePath());
+        }
+    }
     @Override
     protected int getLayoutId() {
         return R.layout.activity_main;
@@ -52,7 +94,7 @@ public class MainActivity extends BaseActivity {
         classeLiminateLayout.setOnClickListener(this);
 
         ViewUtils.setOnClickListener(classeLiminateLayout,this);
-
+        requestRxPermissions(getString(R.string.open_read_error), Manifest.permission.READ_EXTERNAL_STORAGE);
 
         if (android.hardware.Camera.getNumberOfCameras() != 0) {
             addFaceButton.setVisibility(View.VISIBLE);

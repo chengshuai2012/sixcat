@@ -209,6 +209,7 @@ public class EliminateClassActivity extends BaseActivity implements EliminateCon
 
     @Override
     public void selectLessonSuccess(ApiResponse response) {
+        publicTitleAdapter.next();
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.FragmentExtra.BEAN, studentPerson);
         showNewFragment(MemberCardInfoFragment.class, bundle);

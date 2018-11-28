@@ -213,6 +213,7 @@ public class AttendClassActivity extends BaseActivity implements EliminateContrl
 
     @Override
     public void selectLessonSuccess(ApiResponse response) {
+        publicTitleAdapter.next();
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.FragmentExtra.BEAN, studentPerson);
         showNewFragment(MemberCardInfoFragment.class, bundle);
@@ -222,6 +223,7 @@ public class AttendClassActivity extends BaseActivity implements EliminateContrl
                 finish();
             }
         });
+
     }
 
     @Override

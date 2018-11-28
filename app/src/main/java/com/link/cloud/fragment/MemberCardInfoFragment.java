@@ -60,7 +60,6 @@ public class MemberCardInfoFragment extends BaseFragment {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.successLayout:
-                RxBus.get().post(new Events.BackView());
                 getActivity().finish();
                 break;
         }

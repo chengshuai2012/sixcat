@@ -106,18 +106,7 @@ public class SplashController {
     }
 
 
-    public void appUpdateInfo(String deviceId) {
-        ApiFactory.appUpdateInfo(deviceId).subscribe(new ProgressSubscriber<ApiResponse<AppUpdateInfoResponse>>(context) {
-            @Override
-            public void onNext(ApiResponse<AppUpdateInfoResponse> response) {
-                listener.getUpdateInfoSuccess(response.getData());
-            }
-            @Override
-            public void onError(Throwable e) {
-                super.onError(e);
-            }
-        });
-    }
+
 
 
     public void syncUserFeatureCount(String deviceId) {

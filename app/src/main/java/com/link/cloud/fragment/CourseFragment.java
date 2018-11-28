@@ -11,6 +11,7 @@ import com.link.cloud.activity.EliminateClassActivity;
 import com.link.cloud.adapter.CourseAdapter;
 import com.link.cloud.adapter.CourseCardAdapter;
 import com.link.cloud.adapter.GridSpacingItemDecoration;
+import com.link.cloud.base.BaseActivity;
 import com.link.cloud.base.BaseFragment;
 import com.link.cloud.controller.CourseContrller;
 import com.link.cloud.network.bean.CardInfoBean;
@@ -23,13 +24,12 @@ import com.zitech.framework.utils.ViewUtils;
  * 作者：qianlu on 2018/11/20 15:38
  * 邮箱：zar.l@qq.com
  */
-public class CourseFragment extends BaseFragment implements CourseContrller.CourseContrllerListener {
+public class CourseFragment extends BaseFragment  {
 
     private LessonInfoResponse response;
     private android.support.v7.widget.RecyclerView recycle;
     private android.widget.TextView backButton;
     private com.link.cloud.widget.CountDownButton nextButton;
-    private CourseContrller courseContrller;
 
 
     @Override
@@ -46,7 +46,6 @@ public class CourseFragment extends BaseFragment implements CourseContrller.Cour
 
 
     private void initView(View contentView) {
-        courseContrller = new CourseContrller(this, getActivity());
         recycle = contentView.findViewById(R.id.recycle);
         recycle.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         recycle.addItemDecoration(new GridSpacingItemDecoration(2, ViewUtils.getDimen(R.dimen.w20), false));
@@ -59,6 +58,7 @@ public class CourseFragment extends BaseFragment implements CourseContrller.Cour
                 courseAdapter.notifyDataSetChanged();
                 final CourseCardAdapter courseCardAdapter = new CourseCardAdapter(getActivity(), lessonInfoBean.getCardInfo());
                 recycle.setAdapter(courseCardAdapter);
+                ((BaseActivity) getActivity()).speak("请选择卡号");
                 courseCardAdapter.setOnItemClickListener(new CourseCardAdapter.OnItemClickListener() {
                     @Override
                     public void onCheackClick(final CardInfoBean cardInfoBean, int position) {
@@ -97,18 +97,4 @@ public class CourseFragment extends BaseFragment implements CourseContrller.Cour
         }
     }
 
-    @Override
-    public void selectLessonSuccess(LessonInfoResponse response) {
-
-    }
-
-    @Override
-    public void selectLessonFail(String message) {
-        ((EliminateClassActivity) getActivity()).speak(message);
-    }
-
-    @Override
-    public void newWorkFail() {
-        ((EliminateClassActivity) getActivity()).speak(getResources().getString(R.string.net_error));
-    }
 }

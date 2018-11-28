@@ -73,7 +73,7 @@ public class SplashActivity extends BaseActivity implements SplashController.Spl
         pushService.bindAccount(deviceid, new CommonCallback() {
             @Override
             public void onSuccess(String s) {
-                splashController.appUpdateInfo(response.getDeviceId());
+
                 splashController.syncUserFeatureCount(response.getDeviceId());
             }
 

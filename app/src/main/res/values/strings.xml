@@ -75,7 +75,7 @@
 
     <string name="sign_successful">签到成功</string>
 
-
+    <string name="open_read_error">App部分功能需要使用读取权限</string>
 
 
 
