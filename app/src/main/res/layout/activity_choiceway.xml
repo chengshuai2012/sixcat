@@ -121,7 +121,6 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/h219"
         android:layout_marginLeft="@dimen/w45"
-        android:visibility="gone"
         android:layout_marginRight="@dimen/w45"
         android:layout_marginTop="@dimen/h28"
         android:background="@drawable/border_choose_orange_gradient_bg"
@@ -184,4 +183,15 @@
         android:textColor="@color/black"
         android:textColorHint="@color/black"
         android:textSize="@dimen/w24" />
+
+
+    <EditText
+        android:id="@+id/infoId"
+        android:layout_width="@dimen/w1"
+        android:layout_height="@dimen/w1"
+        android:inputType="text"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:textSize="@dimen/w24" />
+
 </LinearLayout>

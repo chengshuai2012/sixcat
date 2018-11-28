@@ -44,12 +44,13 @@ public class ChoiceWayActivity extends BaseActivity implements SignedMemberContr
     private List<Person> peoples;
     private boolean isScanning = false;
     private SignedMemberContrller signedMemberContrller;
+    private EditText editText;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        signedMemberContrller = new SignedMemberContrller(this,this);
+        signedMemberContrller = new SignedMemberContrller(this, this);
     }
 
     @Override
@@ -65,22 +66,58 @@ public class ChoiceWayActivity extends BaseActivity implements SignedMemberContr
             case R.id.buckButton:
                 finish();
                 break;
+            case R.id.xiaochengxuLayout:
+                showActivity(FaceSignActivity.class);
+                finish();
+                break;
         }
     }
 
     @Override
     protected void initViews() {
+        editText = (EditText) findViewById(R.id.infoId);
+
         fingerLayout = (LinearLayout) findViewById(R.id.fingerLayout);
         xiaochengxuLayout = (LinearLayout) findViewById(R.id.xiaochengxuLayout);
         passwordLayout = (LinearLayout) findViewById(R.id.passwordLayout);
         buckButton = (TextView) findViewById(R.id.buckButton);
         infoId = (EditText) findViewById(R.id.infoId);
         rxTimerUtil = new RxTimerUtil();
-        showEditText();
         Utils.setOnClickListener(buckButton, this);
+        Utils.setOnClickListener(xiaochengxuLayout, this);
         setDate();
+        showEditText();
     }
 
+
+    private void showEditText() {
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!TextUtils.isEmpty(editText.getText().toString().trim())) {
+                    rxTimerUtil.timer(500, new RxTimerUtil.IRxNext() {
+                        @Override
+                        public void doNext(long number) {
+                            String code = editText.getText().toString().trim();
+                            if (!TextUtils.isEmpty(code)) {
+                                signedMemberContrller.checkInByQrCode(code);
+                            }
+
+                        }
+                    });
+                }
+            }
+        });
+    }
 
     private void setDate() {
 
@@ -158,34 +195,6 @@ public class ChoiceWayActivity extends BaseActivity implements SignedMemberContr
 
     }
 
-    private void showEditText() {
-        infoId.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (!TextUtils.isEmpty(infoId.getText().toString().trim())) {
-                    rxTimerUtil.timer(500, new RxTimerUtil.IRxNext() {
-                        @Override
-                        public void doNext(long number) {
-                            String code = infoId.getText().toString().trim();
-                            if (!TextUtils.isEmpty(code)) {
-
-                            }
-
-                        }
-                    });
-                }
-            }
-        });
-    }
 
     @Override
     public void signedMemberSuccess() {

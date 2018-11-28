@@ -215,7 +215,10 @@
             android:launchMode="singleInstance"
             android:process=":channel"
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"></activity>
+
         <activity android:name=".activity.MainActivity" />
+
+        <activity android:name=".activity.FaceSignActivity" />
 
 
         <!-- 消息接收服务 -->

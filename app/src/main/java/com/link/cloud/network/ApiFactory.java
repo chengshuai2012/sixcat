@@ -188,12 +188,23 @@ public class ApiFactory {
     }
 
 
+
+
+
     public static Observable<ApiResponse> signedMember(String deviceId, String uid, String fromType) {
         JsonObject params = new JsonObject();
         params.addProperty("deviceId", deviceId);
         params.addProperty("uid", uid);
         params.addProperty("fromType", fromType);
         return getApiService().signMember(params).map(new HttpResultFunc()).compose(SchedulersCompat.applyIoSchedulers());
+
+    }
+
+    public static Observable<ApiResponse> checkInByQrCode( String qrCodeStr) {
+        JsonObject params = new JsonObject();
+        params.addProperty("deviceId", User.get().getDeviceId());
+        params.addProperty("qrCodeStr", qrCodeStr);
+        return getApiService().checkInByQrCode(params).map(new HttpResultFunc()).compose(SchedulersCompat.applyIoSchedulers());
 
     }
 

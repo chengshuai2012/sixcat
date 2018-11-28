@@ -27,6 +27,7 @@ public class SignedMemberContrller {
 
         void signedMemberFail(String message);
 
+
         void newWorkFail();
     }
 
@@ -57,6 +58,31 @@ public class SignedMemberContrller {
 
             }
         });
+    }
+
+    public void checkInByQrCode(String qrcode) {
+        ApiFactory.checkInByQrCode(qrcode).subscribe(new ProgressSubscriber<ApiResponse>(context) {
+
+            @Override
+            public void onNext(ApiResponse memberdataResponseApiResponse) {
+                if (listener != null) {
+                    listener.signedMemberSuccess();
+                }
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                super.onError(throwable);
+                if (throwable instanceof ConnectException || throwable instanceof TimeoutException) {
+                    listener.newWorkFail();
+                } else {
+                    listener.signedMemberFail(throwable.getMessage());
+                }
+
+            }
+        });
+
+
     }
 
 }
