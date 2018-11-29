@@ -12,10 +12,12 @@ import com.link.cloud.Constants;
 import com.link.cloud.R;
 import com.link.cloud.User;
 import com.link.cloud.base.BaseActivity;
+import com.link.cloud.bean.FaceDateBean;
 import com.link.cloud.network.ApiFactory;
 import com.link.cloud.network.response.ApiResponse;
 import com.link.cloud.network.response.AppUpdateInfoResponse;
 import com.link.cloud.network.subscribe.ProgressSubscriber;
+import com.link.cloud.utils.DownLoad;
 import com.link.cloud.utils.DownloadUtils;
 import com.link.cloud.utils.Utils;
 import com.orhanobut.logger.Logger;
@@ -23,6 +25,13 @@ import com.zitech.framework.utils.ToastMaster;
 import com.zitech.framework.utils.ViewUtils;
 
 import java.io.File;
+import java.net.ConnectException;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeoutException;
+
+import rx.functions.Action1;
 
 @SuppressLint("Registered")
 public class MainActivity extends BaseActivity {
@@ -39,7 +48,35 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         initView();
         appUpdateInfo(User.get().getDeviceId());
+        syncUserFacePages(User.get().getDeviceId());
     }
+
+
+    public void syncUserFacePages(String deviceId) {
+        ApiFactory.syncUserFacePages(deviceId).subscribe(new Action1<ApiResponse<List<FaceDateBean>>>() {
+            @Override
+            public void call(final ApiResponse<List<FaceDateBean>> response) {
+                ExecutorService service = Executors.newFixedThreadPool(1);
+                for (int x = 0; x < response.getData().size(); x++) {
+                    final int finalX = x;
+                    Runnable runnable = new Runnable() {
+                        @Override
+                        public void run() {
+                            DownLoad.download(response.getData().get(finalX).getFaceUrl(), response.getData().get(finalX).getUid());
+                        }
+                    };
+                    service.execute(runnable);
+                }
+            }
+        }, new Action1<Throwable>() {
+            @Override
+            public void call(Throwable throwable) {
+
+            }
+        });
+
+    }
+
 
     @Override
     protected void initViews() {
@@ -51,10 +88,11 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onNext(ApiResponse<AppUpdateInfoResponse> response) {
                 int version = Utils.getVersionCode(MainActivity.this);
-                if(version<response.getData().getPackage_version()){
+                if (version < response.getData().getPackage_version()) {
                     downLoadApk(response.getData().getPackage_path());
                 }
             }
+
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
@@ -75,6 +113,7 @@ public class MainActivity extends BaseActivity {
             Logger.e(file.getAbsolutePath());
         }
     }
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_main;
@@ -93,7 +132,7 @@ public class MainActivity extends BaseActivity {
         ViewUtils.setOnClickListener(classBeginsLayout, this);
         classeLiminateLayout.setOnClickListener(this);
 
-        ViewUtils.setOnClickListener(classeLiminateLayout,this);
+        ViewUtils.setOnClickListener(classeLiminateLayout, this);
         requestRxPermissions(getString(R.string.open_read_error), Manifest.permission.READ_EXTERNAL_STORAGE);
 
         if (android.hardware.Camera.getNumberOfCameras() != 0) {

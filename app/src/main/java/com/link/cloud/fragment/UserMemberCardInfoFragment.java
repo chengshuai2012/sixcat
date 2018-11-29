@@ -42,7 +42,6 @@ public class UserMemberCardInfoFragment extends BaseFragment {
     public void onInflateView(View contentView) {
         super.onInflateView(contentView);
         type = getArguments().getString(Constants.FragmentExtra.TYPE);
-        ((BindActivity)getActivity()).speak(getResources().getString(R.string.please_sure));
         initView(contentView);
         setData();
     }

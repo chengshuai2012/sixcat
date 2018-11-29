@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/h500"
+        android:layout_height="@dimen/h550"
         android:layout_marginLeft="@dimen/w30"
         android:layout_marginRight="@dimen/w30"
         android:layout_marginTop="@dimen/h61"
@@ -17,39 +17,57 @@
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
+        <com.link.cloud.widget.CameraSurfaceView
+            android:id="@+id/surfaceView"
+            android:layout_width="1dp"
+            android:layout_height="1dp" />
 
-        <com.link.cloud.widget.camera.CircleCameraLayout
-            android:id="@+id/rootLayout"
+        <com.link.cloud.widget.CameraGLSurfaceView
+            android:id="@+id/svCameraSurfaceview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/h23"
-            android:clipChildren="true"
-            app:border_width="4dp"
-            app:circle_camera_width="@dimen/h300" />
+            android:layout_height="@dimen/h400"
+            android:layout_centerInParent="true" />
 
 
-        <Button
-            android:id="@+id/cardNumber"
-            android:layout_width="@dimen/w380"
-            android:layout_height="@dimen/h62"
-            android:layout_marginTop="@dimen/h45"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/h80"
+            android:layout_marginLeft="@dimen/w60"
+            android:layout_marginRight="@dimen/w60"
+            android:layout_marginTop="@dimen/h20"
             android:background="@drawable/border_add_face"
             android:gravity="center"
-            android:text="@string/introduce_faces"
-            android:textColor="@color/white"
-            android:textSize="@dimen/w28"></Button>
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/cardNumber"
+                android:layout_width="@dimen/w380"
+                android:layout_height="@dimen/h62"
+                android:gravity="center"
+                android:text="@string/introduce_faces"
+                android:textColor="@color/white"
+                android:textSize="@dimen/w28"></TextView>
+
+            <View
+                style="@style/DividerLineVertical"
+                android:background="@color/white"></View>
+
+            <TextView
+                android:id="@+id/takePhoto"
+                android:layout_width="@dimen/w100"
+                android:layout_height="@dimen/h62"
+                android:layout_marginLeft="@dimen/w20"
+                android:gravity="center"
+                android:text="@string/sure"
+                android:textColor="@color/white"
+                android:textSize="@dimen/w28" />
 
 
-        　
-
-        <ImageView
-            android:id="@+id/image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        </LinearLayout>
 
 
     </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"

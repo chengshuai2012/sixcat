@@ -66,9 +66,7 @@ public class SplashController {
             public void call(ApiResponse<RegisterResponse> response) {
                 User.get().storageInfo(response.getData());
                 listener.getDeviceIdSuccess(response.getData());
-                if (android.hardware.Camera.getNumberOfCameras() != 0) {
-                    syncUserFacePages(response.getData().getDeviceId());
-                }
+
             }
         }, new Action1<Throwable>() {
             @Override
@@ -82,27 +80,6 @@ public class SplashController {
 
             }
         });
-    }
-
-
-    public void syncUserFacePages(String deviceId) {
-        ApiFactory.syncUserFacePages(deviceId).subscribe(new Action1<ApiResponse<List<FaceDateBean>>>() {
-            @Override
-            public void call(ApiResponse<List<FaceDateBean>> response) {
-                listener.syncUserFacePagesSuccess(response.getData());
-            }
-        }, new Action1<Throwable>() {
-            @Override
-            public void call(Throwable throwable) {
-                System.out.println("throwable3=" + throwable.getMessage());
-                if (throwable instanceof ConnectException || throwable instanceof TimeoutException) {
-                    listener.newWorkFail();
-                } else {
-                    listener.syncUserFaceFail(throwable.getMessage());
-                }
-            }
-        });
-
     }
 
 

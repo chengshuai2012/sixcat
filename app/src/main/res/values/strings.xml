@@ -76,6 +76,9 @@
     <string name="sign_successful">签到成功</string>
 
     <string name="open_read_error">App部分功能需要使用读取权限</string>
+    <string name="sure">确定</string>
+    <string name="face_camere">请对准摄像头</string>
+    <string name="bind_face_success">绑定成功</string>
 
 
 

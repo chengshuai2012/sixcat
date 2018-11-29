@@ -99,6 +99,7 @@ public class BindActivity extends BaseActivity {
 
     @Subscribe(thread = EventThread.MAIN_THREAD)
     public void onDataChanged(Events.NextView event) {
+        speak(getResources().getString(R.string.please_sure));
         publicTitleAdapter.next();
         Bundle bundle = new Bundle();
         bundle.putString(Constants.FragmentExtra.TYPE, "INFO");
@@ -133,6 +134,7 @@ public class BindActivity extends BaseActivity {
 
     @Subscribe(thread = EventThread.MAIN_THREAD)
     public void onDataChanged(Events.SuccessView event) {
+        speak(getResources().getString(R.string.bind_face_success));
         publicTitleAdapter.next();
         Bundle bundle = new Bundle();
         bundle.putString(Constants.FragmentExtra.TYPE, "FINISH");
@@ -144,6 +146,7 @@ public class BindActivity extends BaseActivity {
     public void BackView(Events.BackView event) {
         publicTitleAdapter.last();
     }
+
 
     @Override
     public void modelMsg(int state, String msg) {

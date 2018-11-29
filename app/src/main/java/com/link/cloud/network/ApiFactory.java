@@ -17,10 +17,14 @@ import com.link.cloud.network.response.RegisterResponse;
 import com.link.cloud.network.subscribe.SchedulersCompat;
 import com.orhanobut.logger.Logger;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import rx.Observable;
 
 /**
@@ -188,9 +192,6 @@ public class ApiFactory {
     }
 
 
-
-
-
     public static Observable<ApiResponse> signedMember(String deviceId, String uid, String fromType) {
         JsonObject params = new JsonObject();
         params.addProperty("deviceId", deviceId);
@@ -200,12 +201,30 @@ public class ApiFactory {
 
     }
 
-    public static Observable<ApiResponse> checkInByQrCode( String qrCodeStr) {
+    public static Observable<ApiResponse> checkInByQrCode(String qrCodeStr) {
         JsonObject params = new JsonObject();
         params.addProperty("deviceId", User.get().getDeviceId());
         params.addProperty("qrCodeStr", qrCodeStr);
         return getApiService().checkInByQrCode(params).map(new HttpResultFunc()).compose(SchedulersCompat.applyIoSchedulers());
+    }
 
+
+    public static Observable<ApiResponse> bindFace(int numberType, String numberValue, int userType, String path, String faceFile) {
+        RequestBody requestdeviceId = RequestBody.create(MediaType.parse("multipart/form-data"), User.get().getDeviceId());
+        RequestBody requestnumberType = RequestBody.create(MediaType.parse("multipart/form-data"), numberType + "");
+        RequestBody requestnumberValue = RequestBody.create(MediaType.parse("multipart/form-data"), numberValue);
+        RequestBody requestuserType = RequestBody.create(MediaType.parse("multipart/form-data"), userType + "");
+        RequestBody link = RequestBody.create(MediaType.parse("multipart/form-data"), "link");
+        RequestBody key = RequestBody.create(MediaType.parse("multipart/form-data"), "848ec6fa44ac6bae");
+        RequestBody dateTme = RequestBody.create(MediaType.parse("multipart/form-data"), "1512028642184");
+        RequestBody sign = RequestBody.create(MediaType.parse("multipart/form-data"), "cc5224ee3e9f2e2089624f676d840524");
+        File file = new File(path);
+        RequestBody requestImgFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+        MultipartBody.Part requestImgPart = MultipartBody.Part.createFormData("imgFile", file.getName(), requestImgFile);
+        File file2 = new File(faceFile);
+        RequestBody requestfacedata = RequestBody.create(MediaType.parse("multipart/form-data"), file2);
+        MultipartBody.Part facedataPart = MultipartBody.Part.createFormData("file", file2.getName(), requestfacedata);
+        return getApiService().bindFace(requestdeviceId, requestuserType, requestnumberValue, requestnumberType, link, key, dateTme, sign, requestImgPart, facedataPart).map(new HttpResultFunc()).compose(SchedulersCompat.applyIoSchedulers());
     }
 
 

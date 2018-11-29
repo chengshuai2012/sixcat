@@ -2,6 +2,7 @@ package com.link.cloud.network;
 
 
 import com.google.gson.JsonObject;
+import com.link.cloud.R;
 import com.link.cloud.bean.FaceDateBean;
 import com.link.cloud.bean.Person;
 import com.link.cloud.network.bean.Code_Message;
@@ -21,12 +22,16 @@ import com.link.cloud.network.response.RegisterResponse;
 import java.lang.reflect.Member;
 import java.util.List;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Streaming;
 import retrofit2.http.Url;
 import rx.Observable;
@@ -150,9 +155,14 @@ public interface ApiService {
 
 
 
-    /**
-     * 12.检测软件版本
-     */
+
+    @Multipart
+    @POST("bindUFace")
+    Observable<ApiResponse>bindFace(@Part("deviceId")RequestBody deviceId, @Part("userType")RequestBody userType, @Part("numberValue")RequestBody numberValue, @Part("numberType")RequestBody numberType, @Part("code")RequestBody code, @Part("key")RequestBody key, @Part("datetime")RequestBody datetime, @Part("sign")RequestBody sign, @Part() MultipartBody.Part faceImage, @Part() MultipartBody.Part faceData);
+
+
+
+
     @POST("deviceUpgrade")
     Observable<UpdateMessage> deviceUpgrade(@Body DeviceIdRequest params);
 

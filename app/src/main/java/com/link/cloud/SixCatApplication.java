@@ -88,6 +88,7 @@ public class SixCatApplication extends BaseApplication {
         intSpeak();
         lifeRegister();
         initCloudChannel(this);
+
     }
 
 

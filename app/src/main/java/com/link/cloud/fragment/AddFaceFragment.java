@@ -1,11 +1,17 @@
 package com.link.cloud.fragment;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.ImageFormat;
 import android.graphics.Rect;
+import android.graphics.YuvImage;
+import android.hardware.Camera;
 import android.os.Environment;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -18,16 +24,25 @@ import com.arcsoft.facerecognition.AFR_FSDKError;
 import com.arcsoft.facerecognition.AFR_FSDKFace;
 import com.arcsoft.facerecognition.AFR_FSDKVersion;
 import com.guo.android_extend.image.ImageConverter;
+import com.guo.android_extend.java.ExtByteArrayOutputStream;
 import com.guo.android_extend.java.ExtOutputStream;
 import com.hwangjr.rxbus.RxBus;
 import com.link.cloud.Events;
 import com.link.cloud.R;
+import com.link.cloud.User;
 import com.link.cloud.activity.BindActivity;
+import com.link.cloud.base.BaseActivity;
 import com.link.cloud.base.BaseFragment;
+import com.link.cloud.controller.AddFaceContrller;
+import com.link.cloud.network.response.MemberdataResponse;
 import com.link.cloud.utils.FaceDB;
+import com.link.cloud.widget.CameraFrameData;
+import com.link.cloud.widget.CameraGLSurfaceView;
+import com.link.cloud.widget.CameraSurfaceView;
 import com.link.cloud.widget.camera.CameraListener;
 import com.link.cloud.widget.camera.CameraPreview;
 import com.link.cloud.widget.camera.CircleCameraLayout;
+import com.zitech.framework.utils.ToastMaster;
 import com.zitech.framework.utils.ViewUtils;
 
 import java.io.File;
@@ -40,23 +55,33 @@ import java.util.List;
  * 作者：qianlu on 2018/10/24 16:03
  * 邮箱：zar.l@qq.com
  */
-public class AddFaceFragment extends BaseFragment {
+public class AddFaceFragment extends BaseFragment implements CameraSurfaceView.OnCameraListener, View.OnTouchListener, AddFaceContrller.AddFaceContrllerListener {
 
 
-    private CircleCameraLayout rootLayout;
-    private CameraPreview cameraPreview;
-    private boolean resume = false;//解决home键黑屏问题
     private android.widget.TextView backButton;
     private android.widget.TextView nextButton;
-    private ImageView image;
-
+    private TextView takePhoto;
+    private byte[] clone;
     private AFR_FSDKFace mAFR_FSDKFace;
+    private Camera mCamera;
+    private CameraGLSurfaceView svCameraSurfaceview;
+    private int mWidth, mHeight, mFormat;
+    private CameraSurfaceView mGLSurfaceView;
+    int mCameraRotate;
+    boolean mCameraMirror;
+    public static String TAG = "Camera";
+    private AddFaceContrller addFaceContrller;
+    private MemberdataResponse memberdataResponse;
+
 
     @Override
     public void onInflateView(View contentView) {
         super.onInflateView(contentView);
         initView(contentView);
-        ((BindActivity)getActivity()).speak(getResources().getString(R.string.please_sure));
+        memberdataResponse = ((BindActivity) getActivity()).getMemberdataResponse();
+        ((BindActivity) getActivity()).speak(getResources().getString(R.string.face_camere));
+        addFaceContrller = new AddFaceContrller(this, getActivity());
+
     }
 
     @Override
@@ -67,55 +92,16 @@ public class AddFaceFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-
-        resume = true;
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (null != cameraPreview) {
-            cameraPreview.releaseCamera();
-        }
-        rootLayout.release();
+
     }
 
 
-    private void startCamera() {
-        if (null != cameraPreview) cameraPreview.releaseCamera();
-        cameraPreview = new CameraPreview(getActivity());
-        rootLayout.removeAllViews();
-        rootLayout.setCameraPreview(cameraPreview);
-        if (resume) {
-            rootLayout.startView();
-        }
-        cameraPreview.setCameraListener(new CameraListener() {
-            @Override
-            public void onCaptured(Bitmap bitmap) {
-                if (null != bitmap) {
-                    image.setImageBitmap(bitmap);
-                    try {
-                        File file= new File(Environment.getExternalStorageDirectory()+"/register.jpg");
-                        if(file.exists()){
-                            file.delete();
-                        }
-                        FileOutputStream fileOutputStream=new FileOutputStream(file.getAbsolutePath());
-                        bitmap.compress(Bitmap.CompressFormat.JPEG,85,fileOutputStream);
-                        saveData(bitmap);
-
-
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-
-                }
-            }
-        });
-    }
-
-
-    public void saveData(Bitmap mBitmap){
+    public void saveData(Bitmap mBitmap) {
 
         byte[] data = new byte[mBitmap.getWidth() * mBitmap.getHeight() * 3 / 2];
         ImageConverter convert = new ImageConverter();
@@ -146,24 +132,22 @@ public class AddFaceFragment extends BaseFragment {
             error1 = engine1.AFR_FSDK_GetVersion(version1);
             Log.d("com.arcsoft", "FR=" + version.toString() + "," + error1.getCode()); //(210, 178 - 478, 446), degree = 1　780, 2208 - 1942, 3370
             error1 = engine1.AFR_FSDK_ExtractFRFeature(data, mBitmap.getWidth(), mBitmap.getHeight(), AFR_FSDKEngine.CP_PAF_NV21, new Rect(result.get(0).getRect()), result.get(0).getDegree(), result1);
-            Log.d("com.arcsoft", "Face=" + result1.getFeatureData()[0] + "," + result1.getFeatureData()[1] + "," + result1.getFeatureData()[2] + "," + error1.getCode()+"<<<<<<<<<"+result.get(0).getDegree());
-            mBitmap=null;
+            Log.d("com.arcsoft", "Face=" + result1.getFeatureData()[0] + "," + result1.getFeatureData()[1] + "," + result1.getFeatureData()[2] + "," + error1.getCode() + "<<<<<<<<<" + result.get(0).getDegree());
+            mBitmap = null;
             if (error1.getCode() == error1.MOK) {
                 mAFR_FSDKFace = result1.clone();
-                Toast.makeText(getActivity(), R.string.face_success, Toast.LENGTH_SHORT).show();
+                ((BaseActivity) getActivity()).speak(getResources().getString(R.string.face_success));
                 savefaceinfo();
             } else {
-                Toast.makeText(getActivity(), R.string.none_face, Toast.LENGTH_SHORT).show();
+                ((BaseActivity) getActivity()).speak(getResources().getString(R.string.none_face));
             }
             error1 = engine1.AFR_FSDK_UninitialEngine();
             Log.d("com.arcsoft", "AFR_FSDK_UninitialEngine : " + error1.getCode());
         } else {
-            Toast.makeText(getActivity(), R.string.none_face, Toast.LENGTH_SHORT).show();
+            ((BaseActivity) getActivity()).speak(getResources().getString(R.string.none_face));
         }
         err = engine.AFD_FSDK_UninitialFaceEngine();
-
     }
-
 
 
     //提交人脸数据
@@ -179,20 +163,35 @@ public class AddFaceFragment extends BaseFragment {
             bos.writeBytes(mAFR_FSDKFace.getFeatureData());
             bos.close();
             fs.close();
-            RxBus.get().post(new Events.SuccessView());
-//            presenter.bindFace(deviceID, 1, faceBindBean.getData().getUserInfo().getPhone(), faceBindBean.getData().getUserInfo().getUserType(), Environment.getExternalStorageDirectory() + "/register.jpg",getExternalCacheDir().getPath() + "/face.data");
+            addFaceContrller.bindFace(User.get().getNumberType(), memberdataResponse.getUserInfo().getPhone(), Integer.parseInt(memberdataResponse.getUserInfo().getUserType()), Environment.getExternalStorageDirectory() + "/register.jpg", getActivity().getExternalCacheDir().getPath() + "/face.data");
         } catch (Exception e) {
             e.printStackTrace();
-        }}
+        }
+    }
 
     private void initView(View contentView) {
+
+
         backButton = contentView.findViewById(R.id.backButton);
         nextButton = contentView.findViewById(R.id.nextButton);
-        rootLayout = contentView.findViewById(R.id.rootLayout);
-        image=contentView.findViewById(R.id.image);
-        startCamera();
+        takePhoto = contentView.findViewById(R.id.takePhoto);
+        mGLSurfaceView = (CameraSurfaceView) contentView.findViewById(R.id.surfaceView);
+        svCameraSurfaceview = contentView.findViewById(R.id.svCameraSurfaceview);
+
+        mCameraRotate = 0;
+        mCameraMirror = false;
+        mWidth = 640;
+        mHeight = 480;
+        mFormat = ImageFormat.NV21;
+        svCameraSurfaceview.setOnTouchListener(this);
+
+        mGLSurfaceView.setOnCameraListener(this);
+        mGLSurfaceView.setupGLSurafceView(svCameraSurfaceview, true, mCameraMirror, mCameraRotate);
+        mGLSurfaceView.debug_print_fps(false, false);
+
         ViewUtils.setOnClickListener(backButton, this);
         ViewUtils.setOnClickListener(nextButton, this);
+        ViewUtils.setOnClickListener(takePhoto, this);
     }
 
     @Override
@@ -200,15 +199,114 @@ public class AddFaceFragment extends BaseFragment {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.backButton:
-//                cameraPreview.releaseCamera();
-                cameraPreview.releaseCamera();
                 RxBus.get().post(new Events.BackView());
                 getActivity().onBackPressed();
                 break;
 
             case R.id.nextButton:
-                cameraPreview.captureImage();//抓取照片
+
+                break;
+
+            case R.id.takePhoto:
+                ExtByteArrayOutputStream ops = new ExtByteArrayOutputStream();
+                YuvImage yuv = new YuvImage(clone, ImageFormat.NV21, 640, 480, null);
+                yuv.compressToJpeg(new Rect(0, 0, 640, 480), 85, ops);
+                final Bitmap bitmap = BitmapFactory.decodeByteArray(ops.getByteArray(), 0, ops.getByteArray().length);
+                try {
+                    File file = new File(Environment.getExternalStorageDirectory() + "/register.jpg");
+                    if (file.exists()) {
+                        file.delete();
+                    }
+                    FileOutputStream fileOutputStream = new FileOutputStream(file.getAbsolutePath());
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 85, fileOutputStream);
+                    saveData(bitmap);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                    ToastMaster.longToast(e.getMessage());
+                }
                 break;
         }
+    }
+
+    @Override
+    public Camera setupCamera() {
+        // TODO Auto-generated method stub
+        mCamera = Camera.open(Camera.CameraInfo.CAMERA_FACING_BACK);
+        try {
+            Camera.Parameters parameters = mCamera.getParameters();
+            parameters.setPreviewSize(mWidth, mHeight);
+            parameters.setPreviewFormat(mFormat);
+            mCamera.setDisplayOrientation(90);
+            for (Camera.Size size : parameters.getSupportedPreviewSizes()) {
+                Log.d(TAG, "SIZE:" + size.width + "x" + size.height);
+            }
+            for (Integer format : parameters.getSupportedPreviewFormats()) {
+                Log.d(TAG, "FORMAT:" + format);
+            }
+
+            List<int[]> fps = parameters.getSupportedPreviewFpsRange();
+            for (int[] count : fps) {
+                Log.d(TAG, "T:");
+                for (int data : count) {
+                    Log.d(TAG, "V=" + data);
+                }
+            }
+            mCamera.setParameters(parameters);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (mCamera != null) {
+            mWidth = mCamera.getParameters().getPreviewSize().width;
+            mHeight = mCamera.getParameters().getPreviewSize().height;
+        }
+        return mCamera;
+    }
+
+    @Override
+    public void setupChanged(int format, int width, int height) {
+
+    }
+
+    @Override
+    public boolean startPreviewImmediately() {
+        return true;
+    }
+
+    @Override
+    public Object onPreview(byte[] data, int width, int height, int format, long timestamp) {
+        clone = data.clone();
+        return null;
+    }
+
+    @Override
+    public void onBeforeRender(CameraFrameData data) {
+
+    }
+
+    @Override
+    public void onAfterRender(CameraFrameData data) {
+
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        return false;
+    }
+
+
+    @Override
+    public void addFaceSuccess() {
+
+        RxBus.get().post(new Events.SuccessView());
+    }
+
+    @Override
+    public void addFaveFaild(String message) {
+
+    }
+
+    @Override
+    public void newWorkFail() {
+
     }
 }
