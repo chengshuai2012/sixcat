@@ -6,6 +6,7 @@
     <string name="add_face">添加人脸识别</string>
     <string name="add_finger">添加指静脉</string>
     <string name="bind_face_id">绑定人脸</string>
+    <string name="bind_finger_id">绑定指静脉</string>
     <string name="class_begin">上课</string>
     <string name="class_eliminate">消课</string>
     <string name="sign_in">签到</string>

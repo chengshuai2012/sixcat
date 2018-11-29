@@ -58,10 +58,7 @@ public class PublicTitleView extends LinearLayout {
     protected void onFinishInflate() {
         super.onFinishInflate();
         title = (TextView) findViewById(R.id.title);
-
-
         title.setTextColor(titleTextColor);
-
         if (!TextUtils.isEmpty(titleText)) {
             title.setVisibility(View.VISIBLE);
             title.setText(titleText);

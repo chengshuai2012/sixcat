@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.hwangjr.rxbus.annotation.Subscribe;
 import com.hwangjr.rxbus.thread.EventThread;
@@ -19,6 +20,7 @@ import com.link.cloud.fragment.InputPhoneFragment;
 import com.link.cloud.fragment.UserMemberCardInfoFragment;
 import com.link.cloud.network.response.MemberdataResponse;
 import com.link.cloud.utils.RxTimerUtil;
+import com.link.cloud.widget.PublicTitleView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +35,8 @@ public class BindActivity extends BaseActivity {
     private PublicTitleAdapter publicTitleAdapter;
     private MemberdataResponse memberdataResponse;
     private RxTimerUtil rxTimerUtil;
-
+    private PublicTitleView publicTitleView;
+    private TextView typeText;
 
     public MemberdataResponse getMemberdataResponse() {
         return memberdataResponse;
@@ -70,6 +73,8 @@ public class BindActivity extends BaseActivity {
 
     private void initView() {
         recycle = (RecyclerView) findViewById(R.id.recycle);
+        publicTitleView= (PublicTitleView) findViewById(R.id.publicTitleView);
+        typeText= (TextView) findViewById(R.id.typeText);
         contentFrame = (FrameLayout) findViewById(R.id.content_frame);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -88,6 +93,8 @@ public class BindActivity extends BaseActivity {
             for (String dateInfo : fingerArray) {
                 date.add(dateInfo);
             }
+            typeText.setText(getResources().getString(R.string.bind_finger_id));
+            publicTitleView.setTitleText(getResources().getString(R.string.bind_finger_id));
         }
         publicTitleAdapter.setDate(date);
         recycle.setAdapter(publicTitleAdapter);
