@@ -140,7 +140,6 @@ public class Utils extends com.zitech.framework.utils.Utils {
             sb.append(str);
         }
         sb.append(ApiConstants.APP_KEY);
-        Logger.e(sb.toString()+"android=============");
         try {
             sign = toMD5HexStr(sb.toString());
         } catch (NoSuchAlgorithmException e) {

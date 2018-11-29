@@ -41,10 +41,7 @@ import com.guo.android_extend.widget.CameraSurfaceView.OnCameraListener;
 import com.link.cloud.R;
 import com.link.cloud.base.BaseActivity;
 import com.link.cloud.controller.MatchVeinTaskContract;
-import com.link.cloud.network.bean.Code_Message;
-import com.link.cloud.network.exception.ApiException;
 import com.link.cloud.utils.FaceDB;
-import com.orhanobut.logger.Logger;
 import com.zitech.framework.utils.ToastMaster;
 
 import java.util.ArrayList;
@@ -95,29 +92,21 @@ public class FaceSignActivity extends BaseActivity implements OnCameraListener, 
         }
     };
 
-    @Override
-    public void signSuccess(Code_Message signedResponse) {
-        speak("签到成功");
-        sign_face_camera.setVisibility(View.GONE);
-
-    }
-
-    @Override
-    public void checkInSuccess(Code_Message code_message) {
-
-    }
-
-
-    public void onError(ApiException e) {
-        String reg = "[^\u4e00-\u9fa5]";
-        String syt = e.getMessage().replaceAll(reg, "");
-        Logger.e("BindActivity" + e.getMessage());
-        fingersign();
-    }
 
     @Override
     public void modelMsg(int state, String msg) {
 
+    }
+
+    @Override
+    public void signFaild(String message) {
+        speak(message);
+    }
+
+    @Override
+    public void checkInSuccess() {
+        speak("签到成功");
+        finish();
     }
 
 
@@ -156,7 +145,7 @@ public class FaceSignActivity extends BaseActivity implements OnCameraListener, 
                     }
                     if (max > 0.75f) {
                         mSurfaceView.stopPreview();
-                        matchVeinTaskContract.signedMember(deviceId, name, "face");
+                        matchVeinTaskContract.signedMember( name, "face");
                     } else {
                         recindex = recindex + 1;
                         if (recindex == 3) {
@@ -180,7 +169,6 @@ public class FaceSignActivity extends BaseActivity implements OnCameraListener, 
                             }
                         }
                     });
-
                 }
                 mImageNV21 = null;
             }
@@ -201,8 +189,11 @@ public class FaceSignActivity extends BaseActivity implements OnCameraListener, 
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
-
-        mFaceDB = new FaceDB(Environment.getExternalStorageDirectory().getAbsolutePath() + "/faceFile");
+        matchVeinTaskContract=new MatchVeinTaskContract(this,this);
+        String path=Environment.getExternalStorageDirectory().getAbsolutePath() + "/faceFile";
+        mFaceDB = new FaceDB(path);
+        mFaceDB.loadFaces();
+        Log.e(TAG, "loop: " + mFaceDB.mFaceList.size());
         if (Camera.getNumberOfCameras() == 2) {
             mCameraID = Camera.CameraInfo.CAMERA_FACING_BACK;
         }

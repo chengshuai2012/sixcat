@@ -157,9 +157,20 @@ public interface ApiService {
 
 
     @Multipart
-    @POST("bindUFace")
+    @POST("bindUserFace")
     Observable<ApiResponse>bindFace(@Part("deviceId")RequestBody deviceId, @Part("userType")RequestBody userType, @Part("numberValue")RequestBody numberValue, @Part("numberType")RequestBody numberType, @Part("code")RequestBody code, @Part("key")RequestBody key, @Part("datetime")RequestBody datetime, @Part("sign")RequestBody sign, @Part() MultipartBody.Part faceImage, @Part() MultipartBody.Part faceData);
 
+
+
+    /**
+     * 3.1 上传图片(multipart/form-data)
+     *
+     * @param
+     * @returnscheduleReport
+     * @see
+     */
+    @POST("bindUserFace")
+    Observable<ApiResponse> bindFace(@Body MultipartBody multipartBody);
 
 
 

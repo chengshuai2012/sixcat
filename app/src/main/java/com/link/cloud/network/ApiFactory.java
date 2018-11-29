@@ -25,6 +25,7 @@ import java.util.Map;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import retrofit2.http.Part;
 import rx.Observable;
 
 /**
@@ -209,7 +210,31 @@ public class ApiFactory {
     }
 
 
-    public static Observable<ApiResponse> bindFace(int numberType, String numberValue, int userType, String path, String faceFile) {
+    public static Observable<ApiResponse> uploadFile(String numberType, String numberValue, String userType, String path, String faceFile) {
+        File file = new File(path);
+        File file2 = new File(faceFile);
+        System.out.println("name=" + file.getName());
+        RequestBody requestImgFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+        RequestBody requestfacedata = RequestBody.create(MediaType.parse("multipart/form-data"), file2);
+        MultipartBody multipartBody = new MultipartBody.Builder()
+                //添加文件参数
+                .addFormDataPart("imgFile", file.getName(), requestImgFile)
+                .addFormDataPart("file", file2.getName(), requestfacedata)
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("deviceId", User.get().getDeviceId())
+                .addFormDataPart("userType", userType)
+                .addFormDataPart("numberValue", numberValue)
+                .addFormDataPart("numberType", numberType)
+                .addFormDataPart("code", "link")
+                .addFormDataPart("key", "848ec6fa44ac6bae")
+                .addFormDataPart("datetime", "1512028642184")
+                .addFormDataPart("sign", "cc5224ee3e9f2e2089624f676d840524")
+                .build();
+
+        return getApiService().bindFace(multipartBody).map(new HttpResultFunc()).compose(SchedulersCompat.applyIoSchedulers());
+    }
+
+    public static Observable<ApiResponse> bindFace(String numberType, String numberValue, String userType, String path, String faceFile) {
         RequestBody requestdeviceId = RequestBody.create(MediaType.parse("multipart/form-data"), User.get().getDeviceId());
         RequestBody requestnumberType = RequestBody.create(MediaType.parse("multipart/form-data"), numberType + "");
         RequestBody requestnumberValue = RequestBody.create(MediaType.parse("multipart/form-data"), numberValue);

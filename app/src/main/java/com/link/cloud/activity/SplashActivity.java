@@ -193,17 +193,6 @@ public class SplashActivity extends BaseActivity implements SplashController.Spl
 
     @Override
     public void syncUserFacePagesSuccess(final List<FaceDateBean> dateBeans) {
-        ExecutorService service = Executors.newFixedThreadPool(1);
-        for (int x = 0; x < dateBeans.size(); x++) {
-            final int finalX = x;
-            Runnable runnable = new Runnable() {
-                @Override
-                public void run() {
-                    DownLoad.download(dateBeans.get(finalX).getFaceUrl(), dateBeans.get(finalX).getUid());
-                }
-            };
-            service.execute(runnable);
-        }
     }
 
     @Override

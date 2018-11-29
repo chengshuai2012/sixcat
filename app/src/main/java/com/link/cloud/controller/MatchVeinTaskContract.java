@@ -9,6 +9,8 @@ import com.link.cloud.network.bean.Code_Message;
 import com.link.cloud.network.response.ApiResponse;
 import com.link.cloud.network.subscribe.ProgressSubscriber;
 
+import rx.functions.Action1;
+
 /**
  * Created by Shaozy on 2016/8/11.
  */
@@ -19,9 +21,8 @@ public class MatchVeinTaskContract {
 
 
     public interface MatchVeinListener {
-        void signSuccess(Code_Message signedResponse);
-
-        void checkInSuccess(Code_Message code_message);
+        void signFaild(String message);
+        void checkInSuccess();
     }
 
     public MatchVeinTaskContract(MatchVeinListener listener, Context context) {
@@ -31,16 +32,19 @@ public class MatchVeinTaskContract {
 
 
     //2014/4/3新品台签到接口
-    public void signedMember(String deviceId, String uid, String fromType) {
-        ApiFactory.signedMember(User.get().getDeviceId(), uid, fromType).subscribe(new ProgressSubscriber<ApiResponse>(context) {
-            @Override
-            public void onNext(ApiResponse apiResponse) {
-                super.onNext(apiResponse);
-            }
+    public void signedMember( String uid, String fromType) {
 
+
+
+        ApiFactory.signedMember(User.get().getDeviceId(), uid, fromType).subscribe(new Action1<ApiResponse>() {
             @Override
-            public void onError(Throwable e) {
-                super.onError(e);
+            public void call(ApiResponse response) {
+                listener.checkInSuccess();
+            }
+        }, new Action1<Throwable>() {
+            @Override
+            public void call(Throwable throwable) {
+                listener.signFaild(throwable.getMessage());
             }
         });
 

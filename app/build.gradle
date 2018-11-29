@@ -15,11 +15,40 @@ android {
             abiFilters "armeabi-v7a", "arm"
         }
     }
+    signingConfigs {
+        release {
+            release {
+                keyAlias 'soonvein'
+                keyPassword '123456'
+                storeFile file("/Users/qianlu/AndroidProject/sixcat/app/keystore4soonvein.jks")
+                storePassword '123456'
+            }
+
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
+//            zipAlignEnabled false  // Zipalign优化
+//            shrinkResources true  // 移除无用的resource文件
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            // debuggable true
+            signingConfig signingConfigs.release
+            android.applicationVariants.all { variant ->
+                variant.outputs.all {
+                    outputFileName = "智能一体机_V${defaultConfig.versionName}_${new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))}.apk"
+                }
+            }
         }
+
+        debug {
+            debuggable true
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+
     }
 
 

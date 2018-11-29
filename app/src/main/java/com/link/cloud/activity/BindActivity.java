@@ -146,6 +146,12 @@ public class BindActivity extends BaseActivity {
         Bundle bundle = new Bundle();
         bundle.putString(Constants.FragmentExtra.TYPE, "FINISH");
         showNewFragment(UserMemberCardInfoFragment.class, bundle);
+        rxTimerUtil.timer(10000, new RxTimerUtil.IRxNext() {
+            @Override
+            public void doNext(long number) {
+                finish();
+            }
+        });
     }
 
 

@@ -7,6 +7,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.link.cloud.SixCatApplication;
 import com.link.cloud.utils.Utils;
+import com.orhanobut.logger.Logger;
 import com.zitech.framework.BaseApplication;
 
 import java.io.File;
@@ -172,6 +173,8 @@ public class RetrofitClient {
         private static final String F_RESPONSE_WITH_BODY = F_RESPONSE + F_BREAK + F_HEADERS + F_BODY + F_BREAK + F_BREAKER;
         @Override
         public Response intercept(Chain chain) throws IOException {
+
+
             Request original = chain.request();
             String code = "link";
             String datetime = System.currentTimeMillis() + "";
@@ -179,8 +182,10 @@ public class RetrofitClient {
             String sign = Utils.generateSign(code, appkey, datetime);
             Request.Builder requestBuilder = original.newBuilder();
             JsonObject postBody = bodyToJsonObject(original.body());
+
             if (postBody == null) {
-                postBody = new JsonObject();
+                Logger.e(postBody+">>>>>>>>>>>>>>>>>>>>>>>>");
+                return chain.proceed(original);
             }
             postBody.addProperty("key", appkey);
             postBody.addProperty("datetime", datetime);

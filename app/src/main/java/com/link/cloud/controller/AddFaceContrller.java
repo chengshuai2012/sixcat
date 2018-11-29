@@ -33,7 +33,7 @@ public class AddFaceContrller {
     }
 
 
-    public void bindFace(int numberType, String numberValue, int userType, String path, String faceFile) {
+    public void bindFace(String numberType, String numberValue, String userType, String path, String faceFile) {
         ApiFactory.bindFace(numberType, numberValue, userType, path, faceFile).subscribe(new ProgressSubscriber<ApiResponse>(context) {
 
             @Override

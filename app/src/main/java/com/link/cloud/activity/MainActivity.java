@@ -147,11 +147,13 @@ public class MainActivity extends BaseActivity {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.addFaceButton:
+                speak("请输入手机号码");
                 Bundle faceBundle = new Bundle();
                 faceBundle.putString(Constants.ActivityExtra.TYPE, "FACE");
                 showActivity(BindActivity.class, faceBundle);
                 break;
             case R.id.addFingerButton:
+                speak("请输入手机号码");
                 Bundle fingerBundle = new Bundle();
                 fingerBundle.putString(Constants.ActivityExtra.TYPE, "FINGER");
                 showActivity(BindActivity.class, fingerBundle);

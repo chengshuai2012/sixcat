@@ -163,7 +163,7 @@ public class AddFaceFragment extends BaseFragment implements CameraSurfaceView.O
             bos.writeBytes(mAFR_FSDKFace.getFeatureData());
             bos.close();
             fs.close();
-            addFaceContrller.bindFace(User.get().getNumberType(), memberdataResponse.getUserInfo().getPhone(), Integer.parseInt(memberdataResponse.getUserInfo().getUserType()), Environment.getExternalStorageDirectory() + "/register.jpg", getActivity().getExternalCacheDir().getPath() + "/face.data");
+            addFaceContrller.bindFace(String.valueOf(User.get().getNumberType()), memberdataResponse.getUserInfo().getPhone(), memberdataResponse.getUserInfo().getUserType(), Environment.getExternalStorageDirectory() + "/register.jpg", getActivity().getExternalCacheDir().getPath() + "/face.data");
         } catch (Exception e) {
             e.printStackTrace();
         }
