@@ -82,18 +82,18 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
 
     }
 
-//
-//    @Override
-//    public boolean onKeyDown(int keyCode, KeyEvent event) {
-//        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-//            if ((System.currentTimeMillis() - exitTime) > 2000) { // 第一次System.currentTimeMillis()无论何时调用，差值肯定大于2000
-//
-//            }
-//            return true;
-//        }
-//        return super.onKeyDown(keyCode, event);
-//    }
-//
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            if ((System.currentTimeMillis() - exitTime) > 2000) { // 第一次System.currentTimeMillis()无论何时调用，差值肯定大于2000
+
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 
 
 

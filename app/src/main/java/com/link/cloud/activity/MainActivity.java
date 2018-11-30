@@ -20,6 +20,7 @@ import com.link.cloud.network.subscribe.ProgressSubscriber;
 import com.link.cloud.utils.DownLoad;
 import com.link.cloud.utils.DownloadUtils;
 import com.link.cloud.utils.Utils;
+import com.link.cloud.widget.InputPassWordDialog;
 import com.orhanobut.logger.Logger;
 import com.zitech.framework.utils.ToastMaster;
 import com.zitech.framework.utils.ViewUtils;
@@ -48,7 +49,10 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         initView();
         appUpdateInfo(User.get().getDeviceId());
-        syncUserFacePages(User.get().getDeviceId());
+
+        if (android.hardware.Camera.getNumberOfCameras() != 0) {
+            syncUserFacePages(User.get().getDeviceId());
+        }
     }
 
 
@@ -125,8 +129,18 @@ public class MainActivity extends BaseActivity {
         addFaceButton = (TextView) findViewById(R.id.addFaceButton);
         addFingerButton = (TextView) findViewById(R.id.addFingerButton);
         signInLayout = (FrameLayout) findViewById(R.id.signInLayout);
+        TextView title = (TextView) findViewById(R.id.title);
+
+        title.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                showSet();
+                return false;
+            }
+        });
 
         ViewUtils.setOnClickListener(addFaceButton, this);
+
         ViewUtils.setOnClickListener(signInLayout, this);
         ViewUtils.setOnClickListener(addFingerButton, this);
         ViewUtils.setOnClickListener(classBeginsLayout, this);
@@ -140,6 +154,27 @@ public class MainActivity extends BaseActivity {
             requestRxPermissions(getString(R.string.open_camera_error), Manifest.permission.CAMERA);
         }
 
+    }
+
+
+
+    private void showSet() {
+        final InputPassWordDialog   inputPassWordDialog = new InputPassWordDialog(this);
+        inputPassWordDialog.show();
+        inputPassWordDialog.setCheakListener(new InputPassWordDialog.CheakListener() {
+            @Override
+            public void inputCheakSuccess() {
+                speak(getResources().getString(R.string.psw_cheak_success));
+                showActivity(SettingActivity.class);
+                inputPassWordDialog.dismiss();
+            }
+
+            @Override
+            public void inputCheakFail() {
+                speak(getResources().getString(R.string.psw_cheak_fail));
+                inputPassWordDialog.dismiss();
+            }
+        });
     }
 
     @Override

@@ -65,7 +65,11 @@
 
         <activity android:name=".activity.BindActivity" />
         <activity android:name=".activity.EliminateClassActivity" />
-        <activity android:name=".activity.ChoiceWayActivity" />
+        <activity
+            android:name=".activity.ChoiceWayActivity"
+            android:largeHeap="true"
+            android:launchMode="singleInstance"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity android:name=".activity.AttendClassActivity" />
 
         <receiver android:name="MyReceiver">
@@ -223,6 +227,7 @@
             android:launchMode="singleInstance" />
 
         <activity android:name=".activity.FaceSignActivity" />
+        <activity android:name=".activity.SettingActivity" />
 
 
         <!-- 消息接收服务 -->

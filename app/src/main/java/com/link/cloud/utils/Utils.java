@@ -126,6 +126,7 @@ public class Utils extends com.zitech.framework.utils.Utils {
 
 
 
+
     /**
      * 签名算法
      * 1）公共头请求参数按照字符串大小顺序顺序排序:key = value + .... key = value.。例如：将foo=1,bar=2,baz=3 排序为bar=2,baz=3,foo=1

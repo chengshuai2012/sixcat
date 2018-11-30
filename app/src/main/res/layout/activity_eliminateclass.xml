@@ -39,7 +39,7 @@
     </LinearLayout>
 
     <FrameLayout
-        android:layout_width="@dimen/w184"
+        android:layout_width="wrap_content"
         android:layout_height="@dimen/h62"
         android:layout_marginLeft="@dimen/w37"
         android:background="@drawable/border_red_white_gradient">

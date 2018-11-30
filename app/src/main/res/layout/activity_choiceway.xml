@@ -79,6 +79,7 @@
         android:layout_gravity="center"
         android:layout_marginLeft="@dimen/w45"
         android:layout_marginRight="@dimen/w45"
+        android:visibility="gone"
         android:layout_marginTop="@dimen/h28"
         android:background="@drawable/border_choose_gradient_bg"
         android:gravity="center_vertical"

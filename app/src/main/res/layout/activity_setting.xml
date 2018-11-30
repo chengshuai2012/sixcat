@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/ic_index_bg"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/versionName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="asdfasdfasdfas"
+        android:textColor="@color/white"
+        android:textSize="@dimen/w30" />
+
+
+    <TextView
+        android:id="@+id/macName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="asdfasdfasdfas"
+        android:textColor="@color/white"
+        android:textSize="@dimen/w30" />
+
+    <TextView
+        android:id="@+id/deviceId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="asdfasdfasdfas"
+        android:textColor="@color/white"
+        android:textSize="@dimen/w30" />
+
+
+    <Button
+        android:id="@+id/restartApp"
+        android:layout_width="@dimen/w300"
+        android:layout_height="@dimen/h60"
+        android:layout_marginBottom="@dimen/h30"
+        android:layout_marginLeft="@dimen/w80"
+        android:layout_marginRight="@dimen/w80"
+        android:textColor="@color/white"
+        android:layout_marginTop="@dimen/h30"
+        android:background="@drawable/bg_rectangle_corner_r20"
+        android:text="@string/restart"
+        android:textSize="@dimen/w24" />
+
+    <Button
+        android:id="@+id/synchroData"
+        android:layout_width="@dimen/w300"
+        android:layout_height="@dimen/h60"
+        android:layout_marginBottom="@dimen/h30"
+        android:layout_marginLeft="@dimen/w80"
+        android:layout_marginRight="@dimen/w80"
+        android:textColor="@color/white"
+        android:layout_marginTop="@dimen/h10"
+        android:background="@drawable/bg_rectangle_corner_r20"
+        android:text="@string/synchro_data"
+        android:textSize="@dimen/w24" />
+
+    <Button
+        android:id="@+id/back_system_main"
+        android:layout_width="@dimen/w300"
+        android:layout_height="@dimen/h60"
+        android:layout_marginBottom="@dimen/h30"
+        android:layout_marginLeft="@dimen/w80"
+        android:layout_marginRight="@dimen/w80"
+        android:textColor="@color/white"
+        android:layout_marginTop="@dimen/h10"
+        android:background="@drawable/bg_rectangle_corner_r20"
+        android:text="@string/back_system_main"
+        android:textSize="@dimen/w24" />
+
+    <Button
+        android:id="@+id/sureButton"
+        android:layout_width="@dimen/w300"
+        android:layout_height="@dimen/h60"
+        android:layout_marginBottom="@dimen/h30"
+        android:layout_marginLeft="@dimen/w80"
+        android:layout_marginRight="@dimen/w80"
+        android:layout_marginTop="@dimen/h10"
+        android:textColor="@color/white"
+        android:background="@drawable/bg_rectangle_corner_r20"
+        android:text="@string/finish"
+        android:textSize="@dimen/w24" />
+
+
+
+</LinearLayout>

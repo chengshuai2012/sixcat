@@ -82,7 +82,19 @@
     <string name="bind_face_success">绑定成功</string>
 
 
-
+    <string name="device_id">设备ID:</string>
+    <string name="mac_id">MAC地址:</string>
+    <string name="version_name">版本号:</string>
+    <string name="restart">重启APP</string>
+    <string name="synchro_data">同步数据</string>
+    <string name="finish">退出设置</string>
+    <string name="power">高电</string>
+    <string name="low_power">低电</string>
+    <string name="back_system_main">返回系统主界面</string>
+    <string name="cheack_phone">密码验证</string>
+    <string name="please_input_password">请输入你的密码</string>
+    <string name="psw_cheak_fail">密码验证失败</string>
+    <string name="psw_cheak_success">密码验证成功</string>
 
 
 </resources>

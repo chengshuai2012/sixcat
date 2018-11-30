@@ -12,6 +12,7 @@
         android:background="@drawable/bg_white_rectangle_corner_r20"
         android:hint="@string/please_input_tel"
         android:paddingLeft="@dimen/w32"
+        android:maxLength="11"
         android:textColor="@color/color_black_333333"
         android:textColorHint="@color/color_gray_999999"
         android:textSize="@dimen/w32" />

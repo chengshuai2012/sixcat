@@ -85,6 +85,9 @@ public class ChoiceWayActivity extends BaseActivity implements SignedMemberContr
         rxTimerUtil = new RxTimerUtil();
         Utils.setOnClickListener(buckButton, this);
         Utils.setOnClickListener(xiaochengxuLayout, this);
+        if (android.hardware.Camera.getNumberOfCameras() != 0) {
+            xiaochengxuLayout.setVisibility(View.VISIBLE);
+        }
         setDate();
         showEditText();
     }
