@@ -119,7 +119,7 @@ public class BindActivity extends BaseActivity {
         Bundle bundle = new Bundle();
         bundle.putString(Constants.FragmentExtra.TYPE, "FINISH");
         showNewFragment(UserMemberCardInfoFragment.class, bundle);
-        rxTimerUtil.timer(10000, new RxTimerUtil.IRxNext() {
+        rxTimerUtil.timer(5000, new RxTimerUtil.IRxNext() {
             @Override
             public void doNext(long number) {
                 finish();
@@ -136,6 +136,13 @@ public class BindActivity extends BaseActivity {
         } else {
             showNewFragment(AddFingerFragment.class);
         }
+
+    }
+
+
+    @Subscribe(thread = EventThread.MAIN_THREAD)
+    public void onfinish(Events.finish event) {
+        finish();
     }
 
 
@@ -146,7 +153,7 @@ public class BindActivity extends BaseActivity {
         Bundle bundle = new Bundle();
         bundle.putString(Constants.FragmentExtra.TYPE, "FINISH");
         showNewFragment(UserMemberCardInfoFragment.class, bundle);
-        rxTimerUtil.timer(10000, new RxTimerUtil.IRxNext() {
+        rxTimerUtil.timer(5000, new RxTimerUtil.IRxNext() {
             @Override
             public void doNext(long number) {
                 finish();

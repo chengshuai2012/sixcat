@@ -199,8 +199,7 @@ public class AddFaceFragment extends BaseFragment implements CameraSurfaceView.O
         super.onClick(v);
         switch (v.getId()) {
             case R.id.backButton:
-                RxBus.get().post(new Events.BackView());
-                getActivity().onBackPressed();
+                RxBus.get().post(new Events.finish());
                 break;
 
             case R.id.nextButton:
@@ -307,6 +306,7 @@ public class AddFaceFragment extends BaseFragment implements CameraSurfaceView.O
 
     @Override
     public void newWorkFail() {
+        ((BaseActivity) getActivity()).speak(getResources().getString(R.string.net_error));
 
     }
 }

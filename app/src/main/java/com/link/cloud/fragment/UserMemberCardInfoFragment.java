@@ -1,6 +1,7 @@
 package com.link.cloud.fragment;
 
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -29,7 +30,7 @@ public class UserMemberCardInfoFragment extends BaseFragment {
 
     private android.widget.LinearLayout selecteLayout;
     private android.widget.TextView backButton;
-    private com.link.cloud.widget.CountDownButton nextButton;
+    private Button nextButton;
     private android.widget.LinearLayout successLayout;
     private TextView name;
     private TextView phoneText;
@@ -61,7 +62,7 @@ public class UserMemberCardInfoFragment extends BaseFragment {
 
         selecteLayout = (LinearLayout) contentView.findViewById(R.id.selecteLayout);
         backButton = (TextView) contentView.findViewById(R.id.backButton);
-        nextButton = (CountDownButton) contentView.findViewById(R.id.nextButton);
+        nextButton =  contentView.findViewById(R.id.nextButton);
         successLayout = (LinearLayout) contentView.findViewById(R.id.successLayout);
         name = (TextView) contentView.findViewById(R.id.name);
         phoneText = (TextView) contentView.findViewById(R.id.phoneText);
@@ -71,7 +72,6 @@ public class UserMemberCardInfoFragment extends BaseFragment {
         if (type.equals("INFO")) {
             successLayout.setVisibility(View.GONE);
             selecteLayout.setVisibility(View.VISIBLE);
-            nextButton.startTimer();
         } else {
             successLayout.setVisibility(View.VISIBLE);
             selecteLayout.setVisibility(View.GONE);
@@ -88,6 +88,7 @@ public class UserMemberCardInfoFragment extends BaseFragment {
 
         Utils.setOnClickListener(backButton, this);
         Utils.setOnClickListener(nextButton, this);
+        Utils.setOnClickListener(successLayout, this);
 
     }
 
@@ -97,14 +98,17 @@ public class UserMemberCardInfoFragment extends BaseFragment {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.backButton:
-                RxBus.get().post(new Events.BackView());
+                RxBus.get().post(new Events.finish());
                 getActivity().onBackPressed();
                 break;
             case R.id.nextButton:
                 RxBus.get().post(new Events.CardInfoNextView());
+                getActivity().onBackPressed();
                 break;
 
-
+            case R.id.successLayout:
+                RxBus.get().post(new Events.finish());
+                break;
         }
     }
 }

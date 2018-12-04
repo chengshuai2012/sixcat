@@ -19,10 +19,8 @@ import com.link.cloud.adapter.PublicTitleAdapter;
 import com.link.cloud.base.BaseActivity;
 import com.link.cloud.bean.Person;
 import com.link.cloud.controller.EliminateContrller;
-import com.link.cloud.fragment.AddFingerFragment;
 import com.link.cloud.fragment.CheackFingerFragment;
 import com.link.cloud.fragment.CourseAttendFragment;
-import com.link.cloud.fragment.CourseFragment;
 import com.link.cloud.fragment.MemberCardInfoFragment;
 import com.link.cloud.network.bean.CardInfoBean;
 import com.link.cloud.network.bean.LessonInfoBean;
@@ -115,6 +113,7 @@ public class AttendClassActivity extends BaseActivity implements EliminateContrl
                                     showNewFragment(CheackFingerFragment.class, bundle);
                                     publicTitleAdapter.next();
                                     speakMust(getResources().getString(R.string.student_finger));
+                                    System.gc();
                                 } else {
                                     speak(getResources().getString(R.string.coach_finger));
                                 }

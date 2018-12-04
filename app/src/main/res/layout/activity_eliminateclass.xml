@@ -38,23 +38,32 @@
 
     </LinearLayout>
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="@dimen/h62"
         android:layout_marginLeft="@dimen/w37"
-        android:background="@drawable/border_red_white_gradient">
+        android:paddingRight="@dimen/w30"
+        android:paddingLeft="@dimen/w30"
+        android:paddingTop="@dimen/h10"
+        android:paddingBottom="@dimen/h10"
+        android:background="@drawable/border_red_white_gradient"
+        android:orientation="horizontal">
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_eliminateclass" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:drawableLeft="@drawable/ic_eliminateclass"
-            android:gravity="center"
             android:text="@string/class_eliminate"
             android:textColor="@color/white"
             android:textSize="@dimen/w27" />
 
-    </FrameLayout>
+    </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycle"

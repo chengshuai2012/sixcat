@@ -141,7 +141,7 @@ public interface ApiService {
 
     @POST("checkInByQrCode")
     @Headers("Content-Type:" + RetrofitClient.JSON)
-    Observable<Code_Message>checkInByQrCode(@Body JsonObject paras);
+    Observable<ApiResponse>checkInByQrCode(@Body JsonObject paras);
 
     /**
      * 2.指静脉设备绑定会员接口

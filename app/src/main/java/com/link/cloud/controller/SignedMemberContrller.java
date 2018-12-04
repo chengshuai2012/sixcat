@@ -10,6 +10,8 @@ import com.link.cloud.network.subscribe.ProgressSubscriber;
 import java.net.ConnectException;
 import java.util.concurrent.TimeoutException;
 
+import rx.functions.Action1;
+
 /**
  * 作者：qianlu on 2018/11/28 15:25
  * 邮箱：zar.l@qq.com
@@ -39,17 +41,16 @@ public class SignedMemberContrller {
 
     public void signedMember(String uid, String fromType) {
 
-        ApiFactory.signedMember(User.get().getDeviceId(), uid, fromType).subscribe(new ProgressSubscriber<ApiResponse>(context) {
+        ApiFactory.signedMember(User.get().getDeviceId(), uid, fromType).subscribe(new Action1<ApiResponse>() {
             @Override
-            public void onNext(ApiResponse memberdataResponseApiResponse) {
+            public void call(ApiResponse response) {
                 if (listener != null) {
                     listener.signedMemberSuccess();
                 }
             }
-
+        }, new Action1<Throwable>() {
             @Override
-            public void onError(Throwable throwable) {
-                super.onError(throwable);
+            public void call(Throwable throwable) {
                 if (throwable instanceof ConnectException || throwable instanceof TimeoutException) {
                     listener.newWorkFail();
                 } else {
@@ -61,24 +62,21 @@ public class SignedMemberContrller {
     }
 
     public void checkInByQrCode(String qrcode) {
-        ApiFactory.checkInByQrCode(qrcode).subscribe(new ProgressSubscriber<ApiResponse>(context) {
-
+        ApiFactory.checkInByQrCode(qrcode).subscribe(new Action1<ApiResponse>() {
             @Override
-            public void onNext(ApiResponse memberdataResponseApiResponse) {
+            public void call(ApiResponse response) {
                 if (listener != null) {
                     listener.signedMemberSuccess();
                 }
             }
-
+        }, new Action1<Throwable>() {
             @Override
-            public void onError(Throwable throwable) {
-                super.onError(throwable);
+            public void call(Throwable throwable) {
                 if (throwable instanceof ConnectException || throwable instanceof TimeoutException) {
                     listener.newWorkFail();
                 } else {
                     listener.signedMemberFail(throwable.getMessage());
                 }
-
             }
         });
 

@@ -76,17 +76,18 @@ public class InputPassWordDialog extends ValidDialog implements View.OnClickList
 
         Utils.setCanNotEditAndClick(phoneNum);
         builder = new StringBuilder();
-        ViewUtils.setOnClickListener(bindKeypad1, this);
-        ViewUtils.setOnClickListener(bindKeypad2, this);
-        ViewUtils.setOnClickListener(bindKeypad3, this);
-        ViewUtils.setOnClickListener(bindKeypad4, this);
-        ViewUtils.setOnClickListener(bindKeypad5, this);
-        ViewUtils.setOnClickListener(bindKeypad6, this);
-        ViewUtils.setOnClickListener(bindKeypad7, this);
-        ViewUtils.setOnClickListener(bindKeypad8, this);
-        ViewUtils.setOnClickListener(bindKeypad9, this);
+        bindKeypad0.setOnClickListener(this);
+        bindKeypad1.setOnClickListener(this);
+        bindKeypad2.setOnClickListener(this);
+        bindKeypad3.setOnClickListener(this);
+        bindKeypad4.setOnClickListener(this);
+        bindKeypad5.setOnClickListener(this);
+        bindKeypad6.setOnClickListener(this);
+        bindKeypad7.setOnClickListener(this);
+        bindKeypad8.setOnClickListener(this);
+        bindKeypad9.setOnClickListener(this);
+
         ViewUtils.setOnClickListener(cleanButton, this);
-        ViewUtils.setOnClickListener(bindKeypad0, this);
         ViewUtils.setOnClickListener(deleteButton, this);
         ViewUtils.setOnClickListener(sureButton, this);
         ViewUtils.setOnClickListener(closeButton, this);
@@ -134,7 +135,6 @@ public class InputPassWordDialog extends ValidDialog implements View.OnClickList
                 break;
 
             case R.id.sureButton:
-
                 if (cheakListener != null) {
                     String password=phoneNum.getText().toString().trim();
                     if (password.equals(User.get().getPassword())) {

@@ -31,7 +31,6 @@ public class MyMessageIntentService extends AliyunMessageIntentService {
     @Override
     protected void onNotification(Context context, String title, String summary, Map<String, String> extraMap) {
         Log.i(TAG,"收到一条推送通知 ： " + title + ", summary:" + summary);
-        SixCatApplication.setConsoleText("收到一条推送通知 ： " + title + ", summary:" + summary);
     }
 
     /**
@@ -42,7 +41,6 @@ public class MyMessageIntentService extends AliyunMessageIntentService {
     @Override
     protected void onMessage(Context context, CPushMessage cPushMessage) {
         Log.i(TAG,"收到一条推送消息 ： " + cPushMessage.getTitle() + ", content:" + cPushMessage.getContent());
-        SixCatApplication.setConsoleText(cPushMessage.getTitle() + ", content:" + cPushMessage.getContent());
     }
 
     /**
@@ -55,7 +53,6 @@ public class MyMessageIntentService extends AliyunMessageIntentService {
     @Override
     protected void onNotificationOpened(Context context, String title, String summary, String extraMap) {
         Log.i(TAG,"onNotificationOpened ： " + " : " + title + " : " + summary + " : " + extraMap);
-        SixCatApplication.setConsoleText("onNotificationOpened ： " + " : " + title + " : " + summary + " : " + extraMap);
     }
 
     /**
@@ -68,7 +65,6 @@ public class MyMessageIntentService extends AliyunMessageIntentService {
     @Override
     protected void onNotificationClickedWithNoAction(Context context, String title, String summary, String extraMap) {
         Log.i(TAG,"onNotificationClickedWithNoAction ： " + " : " + title + " : " + summary + " : " + extraMap);
-        SixCatApplication.setConsoleText("onNotificationClickedWithNoAction ： " + " : " + title + " : " + summary + " : " + extraMap);
     }
 
     /**
@@ -79,7 +75,6 @@ public class MyMessageIntentService extends AliyunMessageIntentService {
     @Override
     protected void onNotificationRemoved(Context context, String messageId) {
         Log.i(TAG, "onNotificationRemoved ： " + messageId);
-        SixCatApplication.setConsoleText("onNotificationRemoved ： " + messageId);
     }
 
     /**
@@ -95,6 +90,5 @@ public class MyMessageIntentService extends AliyunMessageIntentService {
     @Override
     protected void onNotificationReceivedInApp(Context context, String title, String summary, Map<String, String> extraMap, int openType, String openActivity, String openUrl) {
         Log.i(TAG,"onNotificationReceivedInApp ： " + " : " + title + " : " + summary + "  " + extraMap + " : " + openType + " : " + openActivity + " : " + openUrl);
-        SixCatApplication.setConsoleText("onNotificationReceivedInApp ： " + " : " + title + " : " + summary);
     }
 }

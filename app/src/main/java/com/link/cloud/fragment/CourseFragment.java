@@ -2,6 +2,7 @@ package com.link.cloud.fragment;
 
 import android.support.v7.widget.GridLayoutManager;
 import android.view.View;
+import android.widget.Button;
 
 import com.hwangjr.rxbus.RxBus;
 import com.link.cloud.Constants;
@@ -29,7 +30,7 @@ public class CourseFragment extends BaseFragment  {
     private LessonInfoResponse response;
     private android.support.v7.widget.RecyclerView recycle;
     private android.widget.TextView backButton;
-    private com.link.cloud.widget.CountDownButton nextButton;
+    private Button nextButton;
 
 
     @Override
@@ -71,13 +72,8 @@ public class CourseFragment extends BaseFragment  {
         });
         backButton = contentView.findViewById(R.id.backButton);
         nextButton = contentView.findViewById(R.id.nextButton);
-        nextButton.startTimer();
-        nextButton.setOnFinishListener(new CountDownButton.OnFinishListener() {
-            @Override
-            public void onfinish() {
-                RxBus.get().post(new Events.finish());
-            }
-        });
+
+
         ViewUtils.setOnClickListener(backButton, this);
         ViewUtils.setOnClickListener(nextButton, this);
     }
@@ -88,10 +84,11 @@ public class CourseFragment extends BaseFragment  {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.backButton:
-                getActivity().finish();
+                RxBus.get().post(new Events.finish());
                 break;
             case R.id.nextButton:
                 RxBus.get().post(new Events.NextView());
+                getActivity().onBackPressed();
                 break;
 
         }

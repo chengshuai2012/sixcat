@@ -12,6 +12,7 @@ import com.link.cloud.Events;
 import com.link.cloud.R;
 import com.link.cloud.SixCatApplication;
 import com.link.cloud.activity.BindActivity;
+import com.link.cloud.base.BaseActivity;
 import com.link.cloud.base.BaseFragment;
 import com.link.cloud.network.ApiFactory;
 import com.link.cloud.network.response.ApiResponse;
@@ -21,6 +22,9 @@ import com.link.cloud.utils.RxTimerUtil;
 import com.link.cloud.utils.TTSUtils;
 import com.link.cloud.utils.Venueutils;
 import com.zitech.framework.utils.ViewUtils;
+
+import java.net.ConnectException;
+import java.util.concurrent.TimeoutException;
 
 /**
  * 作者：qianlu on 2018/10/24 18:17
@@ -43,7 +47,7 @@ public class AddFingerFragment extends BaseFragment implements Venueutils.VenueC
         switch (v.getId()) {
             case R.id.backButton:
                 animator.cancel();
-                RxBus.get().post(new Events.BackView());
+                RxBus.get().post(new Events.finish());
                 getActivity().onBackPressed();
                 break;
         }
@@ -60,7 +64,7 @@ public class AddFingerFragment extends BaseFragment implements Venueutils.VenueC
 
 
     private void simulateProgress() {
-        rxTimerUtil=new RxTimerUtil();
+        rxTimerUtil = new RxTimerUtil();
         animator = ValueAnimator.ofInt(0, 100);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -70,7 +74,7 @@ public class AddFingerFragment extends BaseFragment implements Venueutils.VenueC
                     customProgress.setProgress(progress);
                     int state = SixCatApplication.getVenueUtils().getState();
                     if (state == 3) {
-                        if (getActivity() != null){
+                        if (getActivity() != null) {
                             SixCatApplication.getVenueUtils().workModel();
                             animator.setCurrentPlayTime(0);
                             cardNumber.setText(getResources().getString(R.string.again_finger));
@@ -92,12 +96,10 @@ public class AddFingerFragment extends BaseFragment implements Venueutils.VenueC
         rxTimerUtil.timer(40000, new RxTimerUtil.IRxNext() {
             @Override
             public void doNext(long number) {
-                RxBus.get().post(new Events.BackView());
-                getActivity().onBackPressed();
+                RxBus.get().post(new Events.finish());
             }
         });
     }
-
 
 
     @Override
@@ -126,7 +128,7 @@ public class AddFingerFragment extends BaseFragment implements Venueutils.VenueC
 
 
     @Override
-    public void modelMsg(int state, String msg) {
+    public void modelMsg(int state, final String msg) {
         Log.e("modelMsg: ", state + ">>>>>>>>>");
         TTSUtils.getInstance().speak(msg);
         if (state == 3) {
@@ -139,10 +141,14 @@ public class AddFingerFragment extends BaseFragment implements Venueutils.VenueC
                 }
 
                 @Override
-                public void onError(Throwable e) {
-                    super.onError(e);
-                    RxBus.get().post(new Events.BackView());
-                    getActivity().onBackPressed();
+                public void onError(Throwable throwable) {
+                    super.onError(throwable);
+                    if (throwable instanceof ConnectException || throwable instanceof TimeoutException) {
+                        ((BaseActivity) getActivity()).speak(getResources().getString(R.string.net_error));
+
+                    } else {
+                        ((BaseActivity) getActivity()).speak(throwable.getMessage());
+                    }
                 }
             });
 

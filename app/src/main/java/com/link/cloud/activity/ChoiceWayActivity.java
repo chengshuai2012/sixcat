@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.link.cloud.R;
 import com.link.cloud.SixCatApplication;
-import com.link.cloud.User;
 import com.link.cloud.base.BaseActivity;
 import com.link.cloud.bean.Person;
 import com.link.cloud.controller.SignedMemberContrller;
@@ -35,11 +34,8 @@ import io.realm.RealmResults;
 public class ChoiceWayActivity extends BaseActivity implements SignedMemberContrller.SignedListener {
 
 
-    private LinearLayout fingerLayout;
     private LinearLayout xiaochengxuLayout;
-    private LinearLayout passwordLayout;
     private TextView buckButton;
-    private EditText infoId;
     private RxTimerUtil rxTimerUtil;
     private List<Person> peoples;
     private boolean isScanning = false;
@@ -75,13 +71,9 @@ public class ChoiceWayActivity extends BaseActivity implements SignedMemberContr
 
     @Override
     protected void initViews() {
-        editText = (EditText) findViewById(R.id.infoId);
-
-        fingerLayout = (LinearLayout) findViewById(R.id.fingerLayout);
+        editText = (EditText) findViewById(R.id.editText);
         xiaochengxuLayout = (LinearLayout) findViewById(R.id.xiaochengxuLayout);
-        passwordLayout = (LinearLayout) findViewById(R.id.passwordLayout);
         buckButton = (TextView) findViewById(R.id.buckButton);
-        infoId = (EditText) findViewById(R.id.infoId);
         rxTimerUtil = new RxTimerUtil();
         Utils.setOnClickListener(buckButton, this);
         Utils.setOnClickListener(xiaochengxuLayout, this);
@@ -113,6 +105,7 @@ public class ChoiceWayActivity extends BaseActivity implements SignedMemberContr
                             String code = editText.getText().toString().trim();
                             if (!TextUtils.isEmpty(code)) {
                                 signedMemberContrller.checkInByQrCode(code);
+                                editText.setText("");
                             }
 
                         }
@@ -173,6 +166,8 @@ public class ChoiceWayActivity extends BaseActivity implements SignedMemberContr
                             isScanning = false;
                             if (!isScanning) {
                                 signedMemberContrller.signedMember(uuid.getUid(), "vein");
+                                System.gc();
+                                rxTimerUtil.cancel();
                             }
                             System.out.println("贾工要的信息+Person:uid=" + uuid.getUid());
                         } else {
@@ -181,6 +176,10 @@ public class ChoiceWayActivity extends BaseActivity implements SignedMemberContr
                         long endTime = System.currentTimeMillis(); //获取结束时间
                         System.out.println("程序运行时间： " + (endTime - startTime) + "ms");
                     }
+                    if (state == 4) {
+                        speak(getResources().getString(R.string.move_finger));
+                    }
+
                 }
             }
 
@@ -202,7 +201,7 @@ public class ChoiceWayActivity extends BaseActivity implements SignedMemberContr
     @Override
     public void signedMemberSuccess() {
         speak(getResources().getString(R.string.sign_successful));
-        rxTimerUtil.timer(5000, new RxTimerUtil.IRxNext() {
+        rxTimerUtil.timer(2000, new RxTimerUtil.IRxNext() {
             @Override
             public void doNext(long number) {
                 finish();
@@ -213,10 +212,12 @@ public class ChoiceWayActivity extends BaseActivity implements SignedMemberContr
     @Override
     public void signedMemberFail(String message) {
         speak(message);
+        finish();
     }
 
     @Override
     public void newWorkFail() {
-
+        speak(getResources().getString(R.string.net_error));
+        finish();
     }
 }

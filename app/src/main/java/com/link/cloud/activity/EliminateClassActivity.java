@@ -92,7 +92,7 @@ public class EliminateClassActivity extends BaseActivity implements EliminateCon
                 System.out.println("number=" + number);
                 if (isScanning) {
                     int state = SixCatApplication.getVenueUtils().getState();
-                    if (state == 3 || state == 4) {
+                    if (state == 3 ) {
                         long startTime = System.currentTimeMillis();   //获取开始时间
                         String uid = SixCatApplication.getVenueUtils().identifyNewImg(peoples);
                         if (uid == null) {
@@ -119,6 +119,7 @@ public class EliminateClassActivity extends BaseActivity implements EliminateCon
                                     if (studentPerson != null && coachPerson != null) {
                                         rxTimerUtil.cancel();
                                         eliminateContrller.getLessonInfo(2, studentPerson.getUid(), coachPerson.getUid());
+                                        System.gc();
                                     }
                                 } else {
                                     speak(getResources().getString(R.string.student_finger));

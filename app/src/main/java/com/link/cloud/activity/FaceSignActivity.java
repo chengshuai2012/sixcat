@@ -58,12 +58,10 @@ public class FaceSignActivity extends BaseActivity implements OnCameraListener, 
 
 
     private final String TAG = this.getClass().getSimpleName();
-    LinearLayout sign_face_camera;
     private int mWidth, mHeight, mFormat;
     private CameraSurfaceView mSurfaceView;
     private CameraGLSurfaceView mGLSurfaceView;
     private Camera mCamera;
-    String deviceId;
     MatchVeinTaskContract matchVeinTaskContract;
     AFT_FSDKVersion version = new AFT_FSDKVersion();
     AFT_FSDKEngine engine = new AFT_FSDKEngine();
@@ -101,6 +99,7 @@ public class FaceSignActivity extends BaseActivity implements OnCameraListener, 
     @Override
     public void signFaild(String message) {
         speak(message);
+        finish();
     }
 
     @Override
@@ -153,7 +152,19 @@ public class FaceSignActivity extends BaseActivity implements OnCameraListener, 
                             long secondTime = System.currentTimeMillis();
                             if (secondTime - firstTime > 3000) {
                                 firstTime = secondTime;
-                                ToastMaster.longToast(getResources().getString(R.string.none_identify));
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                ToastMaster.longToast(getResources().getString(R.string.none_identify));
+                                            }
+                                        });
+
+
+                                    }
+                                });
                             }
                             recindex = 0;
                         }
@@ -231,25 +242,6 @@ public class FaceSignActivity extends BaseActivity implements OnCameraListener, 
         mFRAbsLoop.start();
 
     }
-
-
-    Handler handler = new Handler();
-
-    private void fingersign() {
-        if (handler != null) {
-            handler.postDelayed(new Runnable() {
-
-                @Override
-
-                public void run() {
-                    finish();
-
-                }
-
-            }, 3000);
-        }
-    }
-
 
     @Override
     protected int getLayoutId() {
@@ -352,14 +344,11 @@ public class FaceSignActivity extends BaseActivity implements OnCameraListener, 
                 }
             }
         }
-        //copy rects
         Rect[] rects = new Rect[result.size()];
         for (int i = 0; i < result.size(); i++) {
             rects[i] = new Rect(result.get(i).getRect());
         }
-        //clear result.
         result.clear();
-        //return the rects for render.
         return rects;
     }
 

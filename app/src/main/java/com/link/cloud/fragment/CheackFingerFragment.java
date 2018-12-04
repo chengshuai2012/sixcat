@@ -42,7 +42,7 @@ public class CheackFingerFragment extends BaseFragment {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.backButton:
-                RxBus.get().post(new Events.BackView());
+                RxBus.get().post(new Events.finish());
                 getActivity().onBackPressed();
                 break;
         }

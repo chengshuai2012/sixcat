@@ -10,6 +10,7 @@ import com.link.cloud.Events;
 import com.link.cloud.R;
 import com.link.cloud.User;
 import com.link.cloud.activity.BindActivity;
+import com.link.cloud.base.BaseActivity;
 import com.link.cloud.base.BaseFragment;
 import com.link.cloud.controller.InputPhoneContrller;
 import com.link.cloud.network.response.MemberdataResponse;
@@ -127,7 +128,7 @@ public class InputPhoneFragment extends BaseFragment implements InputPhoneContrl
                 }
                 break;
             case R.id.backButton:
-                getActivity().finish();
+                RxBus.get().post(new Events.finish());
                 break;
             case R.id.nextButton:
                 String phone = phoneNum.getText().toString().trim();
@@ -156,6 +157,6 @@ public class InputPhoneFragment extends BaseFragment implements InputPhoneContrl
 
     @Override
     public void newWorkFail() {
-
+        ((BaseActivity) getActivity()).speak(getResources().getString(R.string.net_error));
     }
 }

@@ -87,7 +87,7 @@
             android:textSize="@dimen/w35" />
 
 
-        <com.link.cloud.widget.CountDownButton
+        <Button
             android:id="@+id/nextButton"
             android:layout_width="@dimen/w171"
             android:layout_height="@dimen/h62"

@@ -26,8 +26,8 @@
     <string name="digitKeyppad_one">1</string>
     <string name="back">返回</string>
     <string name="next">下一步</string>
-    <string name="_60s">下一步60s</string>
-    <string name="recent">重发</string>
+    <string name="_60s">下一步</string>
+    <string name="recent">下一步</string>
     <string name="bind_success">绑定成功请开启你的健身之旅</string>
     <string name="introduce_faces">请将人脸置于相机预览框内</string>
     <string name="open_camera_error">App部分功能需要使用到相机，请开启相机权限。</string>

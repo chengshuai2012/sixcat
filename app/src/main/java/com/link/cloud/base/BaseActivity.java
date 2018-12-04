@@ -18,6 +18,9 @@ import android.view.WindowManager;
 import com.hwangjr.rxbus.RxBus;
 import com.link.cloud.R;
 import com.link.cloud.SixCatApplication;
+import com.link.cloud.bean.Person;
+import com.link.cloud.network.bean.SignUser;
+import com.link.cloud.network.response.MemberdataResponse;
 import com.link.cloud.utils.TTSUtils;
 import com.link.cloud.utils.Utils;
 import com.link.cloud.utils.Venueutils;
@@ -26,13 +29,14 @@ import com.tbruyelle.rxpermissions.RxPermissions;
 import com.zitech.framework.utils.ViewUtils;
 
 import io.realm.Realm;
+import io.realm.RealmResults;
 import rx.functions.Action1;
 
 /**
  * Created by OFX002 on 2018/9/20.
  */
 
-public abstract class BaseActivity extends AppCompatActivity implements View.OnClickListener, Venueutils.VenueCallBack{
+public abstract class BaseActivity extends AppCompatActivity implements View.OnClickListener, Venueutils.VenueCallBack {
 
     private SimpleStyleDialog denyDialog;
     public Realm realm;
@@ -57,7 +61,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         RxBus.get().unregister(this);
         try {
             SixCatApplication.getVenueUtils().unBindService();
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
     }
@@ -83,25 +87,23 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     }
 
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            if ((System.currentTimeMillis() - exitTime) > 2000) { // 第一次System.currentTimeMillis()无论何时调用，差值肯定大于2000
-
-            }
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-
-
-
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+//            if ((System.currentTimeMillis() - exitTime) > 2000) { // 第一次System.currentTimeMillis()无论何时调用，差值肯定大于2000
+//
+//            }
+//            return true;
+//        }
+//        return super.onKeyDown(keyCode, event);
+//    }
+//
 
     public void speak(String message) {
         TTSUtils.getInstance().speak(message);
     }
 
-    public void speakMust(String message){
+    public void speakMust(String message) {
         TTSUtils.getInstance().speakMust(message);
     }
 
@@ -148,12 +150,9 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
 
     public void showActivity(Class<?> cls) {
         Intent intent = new Intent();
-
-        
         intent.setClass(this, cls);
         super.startActivity(intent);
         ViewUtils.anima(ViewUtils.RIGHT_IN, this);
-
     }
 
     public void showActivity(Class<?> cls, Bundle extras) {
@@ -231,14 +230,13 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         return Utils.replaceNew(getSupportFragmentManager(), R.id.content_frame, fragmentClass);
     }
 
-    public Fragment showFragment(Class<? extends Fragment> fragmentClass,Bundle bundle) {
-        return Utils.replace(getSupportFragmentManager(),fragmentClass, R.id.content_frame, bundle);
+    public Fragment showFragment(Class<? extends Fragment> fragmentClass, Bundle bundle) {
+        return Utils.replace(getSupportFragmentManager(), fragmentClass, R.id.content_frame, bundle);
     }
 
-    public Fragment showNewFragment(Class<? extends Fragment> fragmentClass,Bundle bundle) {
-        return Utils.replaceNew(getSupportFragmentManager(),fragmentClass, R.id.content_frame, bundle);
+    public Fragment showNewFragment(Class<? extends Fragment> fragmentClass, Bundle bundle) {
+        return Utils.replaceNew(getSupportFragmentManager(), fragmentClass, R.id.content_frame, bundle);
     }
-
 
 
     public Context getContext() {

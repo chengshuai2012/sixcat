@@ -53,7 +53,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".activity.SplashActivity">
+        <activity android:name=".activity.SplashActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            >
             <intent-filter>
                 <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
                 <action android:name="android.intent.action.MAIN" />
@@ -63,12 +65,15 @@
         </activity>
         <service android:name=".veune.MdUsbService" />
 
-        <activity android:name=".activity.BindActivity" />
+        <activity
+            android:name=".activity.BindActivity"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden"
+            />
         <activity android:name=".activity.EliminateClassActivity" />
         <activity
             android:name=".activity.ChoiceWayActivity"
             android:largeHeap="true"
-            android:launchMode="singleInstance"
+            android:launchMode="standard"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity android:name=".activity.AttendClassActivity" />
 
@@ -91,9 +96,25 @@
         <meta-data
             android:name="com.alibaba.app.appkey"
             android:value="24804822" /> <!-- 请填写你自己的- appKey -->
+
         <meta-data
             android:name="com.alibaba.app.appsecret"
             android:value="dc9aa3ae59b3f3e8b757ec3d0886a401" /> <!-- 请填写你自己的appSecret -->
+        <receiver
+            android:name=".MyMessageReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.alibaba.push2.action.NOTIFICATION_OPENED" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.alibaba.push2.action.NOTIFICATION_REMOVED" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.alibaba.sdk.android.push.RECEIVE" />
+            </intent-filter>
+        </receiver>
+
 
         <service
             android:name="com.alibaba.sdk.android.push.MsgService"
@@ -240,6 +261,7 @@
                 <data android:scheme="package" />
             </intent-filter>
         </receiver>
+
 
         <provider
             android:name="android.support.v4.content.FileProvider"

@@ -8,6 +8,9 @@ import com.link.cloud.network.response.ApiResponse;
 import com.link.cloud.network.response.MemberdataResponse;
 import com.link.cloud.network.subscribe.ProgressSubscriber;
 
+import java.net.ConnectException;
+import java.util.concurrent.TimeoutException;
+
 /**
  * 作者：qianlu on 2018/11/27 09:47
  * 邮箱：zar.l@qq.com
@@ -44,8 +47,13 @@ public class InputPhoneContrller {
             }
 
             @Override
-            public void onError(Throwable e) {
-                super.onError(e);
+            public void onError(Throwable throwable) {
+                super.onError(throwable);
+                if (throwable instanceof ConnectException || throwable instanceof TimeoutException) {
+                    listener.newWorkFail();
+                } else {
+                    listener.getMemInfoFail(throwable.getMessage());
+                }
             }
         });
     }

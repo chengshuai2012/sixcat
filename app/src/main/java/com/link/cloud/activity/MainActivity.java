@@ -129,9 +129,9 @@ public class MainActivity extends BaseActivity {
         addFaceButton = (TextView) findViewById(R.id.addFaceButton);
         addFingerButton = (TextView) findViewById(R.id.addFingerButton);
         signInLayout = (FrameLayout) findViewById(R.id.signInLayout);
-        TextView title = (TextView) findViewById(R.id.title);
+        TextView titleText = (TextView) findViewById(R.id.titleText);
 
-        title.setOnLongClickListener(new View.OnLongClickListener() {
+        titleText.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 showSet();
@@ -160,7 +160,6 @@ public class MainActivity extends BaseActivity {
 
     private void showSet() {
         final InputPassWordDialog   inputPassWordDialog = new InputPassWordDialog(this);
-        inputPassWordDialog.show();
         inputPassWordDialog.setCheakListener(new InputPassWordDialog.CheakListener() {
             @Override
             public void inputCheakSuccess() {
@@ -175,6 +174,7 @@ public class MainActivity extends BaseActivity {
                 inputPassWordDialog.dismiss();
             }
         });
+        inputPassWordDialog.show();
     }
 
     @Override
