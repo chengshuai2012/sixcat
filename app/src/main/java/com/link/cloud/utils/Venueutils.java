@@ -50,6 +50,10 @@ public class Venueutils {
     private final static float IDENTIFY_SCORE_THRESHOLD = 0.63f;
     private final static float MODEL_SCORE_THRESHOLD = 0.4f;
 
+    public void setImg(byte[] img) {
+        this.img = img;
+    }
+
     public interface VenueCallBack {
         void modelMsg(int state, String msg);
     }

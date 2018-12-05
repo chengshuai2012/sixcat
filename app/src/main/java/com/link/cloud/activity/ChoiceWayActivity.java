@@ -53,6 +53,7 @@ public class ChoiceWayActivity extends BaseActivity implements SignedMemberContr
     protected void onDestroy() {
         super.onDestroy();
         rxTimerUtil.cancel();
+        SixCatApplication.getVenueUtils().setImg(null);
     }
 
     @Override
@@ -155,10 +156,8 @@ public class ChoiceWayActivity extends BaseActivity implements SignedMemberContr
                 if (isScanning) {
                     int state = SixCatApplication.getVenueUtils().getState();
                     if (state == 3 || state == 4) {
-                        long startTime = System.currentTimeMillis();   //获取开始时间
                         String uid = SixCatApplication.getVenueUtils().identifyNewImg(peoples);
                         if (uid == null) {
-                            Logger.e("贾工要的信息+Person:uid=get img failed, please try again ");
                             speak(getResources().getString(R.string.move_finger));
                         }
                         final Person uuid = realm.where(Person.class).equalTo("uid", uid).findFirst();
@@ -167,14 +166,10 @@ public class ChoiceWayActivity extends BaseActivity implements SignedMemberContr
                             if (!isScanning) {
                                 signedMemberContrller.signedMember(uuid.getUid(), "vein");
                                 System.gc();
-                                rxTimerUtil.cancel();
                             }
-                            System.out.println("贾工要的信息+Person:uid=" + uuid.getUid());
                         } else {
                             speak(getResources().getString(R.string.move_finger));
                         }
-                        long endTime = System.currentTimeMillis(); //获取结束时间
-                        System.out.println("程序运行时间： " + (endTime - startTime) + "ms");
                     }
                     if (state == 4) {
                         speak(getResources().getString(R.string.move_finger));
@@ -194,25 +189,19 @@ public class ChoiceWayActivity extends BaseActivity implements SignedMemberContr
 
     @Override
     public void modelMsg(int state, String msg) {
-
     }
 
 
     @Override
     public void signedMemberSuccess() {
-        speak(getResources().getString(R.string.sign_successful));
-        rxTimerUtil.timer(2000, new RxTimerUtil.IRxNext() {
-            @Override
-            public void doNext(long number) {
-                finish();
-            }
-        });
+        speakMust(getResources().getString(R.string.sign_successful));
+        isScanning=true;
     }
 
     @Override
     public void signedMemberFail(String message) {
         speak(message);
-        finish();
+        isScanning=true;
     }
 
     @Override

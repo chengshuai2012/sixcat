@@ -42,6 +42,7 @@ import java.util.List;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
+import rx.functions.Action1;
 
 public class SixCatApplication extends BaseApplication {
 
@@ -206,11 +207,9 @@ public class SixCatApplication extends BaseApplication {
 
 
     private static void getDate() {
-
-        ApiFactory.downloadFeature(pushMessage.getMessageId(), pushMessage.getAppid(), pushMessage.getShopId(), User.get().getDeviceId(), pushMessage.getUid()).subscribe(new ProgressSubscriber<ApiResponse<List<Person>>>(getInstance()) {
-
+        ApiFactory.downloadFeature(pushMessage.getMessageId(), pushMessage.getAppid(), pushMessage.getShopId(), User.get().getDeviceId(), pushMessage.getUid()).subscribe(new Action1<ApiResponse<List<Person>>>() {
             @Override
-            public void onNext(final ApiResponse<List<Person>> listApiResponse) {
+            public void call(final ApiResponse<List<Person>> listApiResponse) {
                 final RealmResults<Person> uid = realm.where(Person.class).equalTo("uid", listApiResponse.getData().get(0).getUid()).findAll();
                 realm.executeTransaction(new Realm.Transaction() {
                     @Override
@@ -229,10 +228,9 @@ public class SixCatApplication extends BaseApplication {
                     }
                 });
             }
-
+        }, new Action1<Throwable>() {
             @Override
-            public void onError(Throwable e) {
-                super.onError(e);
+            public void call(Throwable throwable) {
             }
         });
     }

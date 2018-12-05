@@ -137,12 +137,19 @@ public class SplashActivity extends BaseActivity implements SplashController.Spl
     @Override
     public void getPageInfoSuccess(PageInfoResponse response) {
         pageInfoResponse = response;
-        if (response.getPageCount() > 0) {
+        final RealmResults<Person> personRealmResults = realm.where(Person.class).findAll();
+        if (response.getPageCount() > 0 && response.getCount() != personRealmResults.size()) {
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    realm.deleteAll();
+                }
+            });
             getDate(thisPage);
         } else {
-            skipActivity(MainActivity.class);
-            dialog.dismiss();
             speak("初始化成功");
+            dialog.dismiss();
+            skipActivity(MainActivity.class);
         }
     }
 

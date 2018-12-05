@@ -74,7 +74,7 @@ public class RxTimerUtil {
 
                     @Override
                     public void onError(@NonNull Throwable e) {
-                        System.out.println("Throwable="+e.getMessage());
+                        System.out.println("Throwable=" + e.getMessage());
                         interval(milliseconds, next);
                     }
 
@@ -86,7 +86,7 @@ public class RxTimerUtil {
      * 取消订阅
      */
     public void cancel() {
-        if (mDisposable != null) {
+        if (mDisposable != null && !mDisposable.isUnsubscribed()) {
             mDisposable.unsubscribe();
         }
     }
